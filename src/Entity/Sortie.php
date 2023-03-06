@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\SortieRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -28,6 +30,26 @@ class Sortie
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $infosSortie = null;
+
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'sorties')]
+    private Collection $inscrits;
+
+    #[ORM\ManyToOne(inversedBy: 'sortiesOrganisees')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $organisateur = null;
+
+    #[ORM\ManyToOne(inversedBy: 'listeSortieCampus')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Campus $campus = null;
+
+    #[ORM\ManyToOne(inversedBy: 'listeSortieLieu')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Lieu $lieu = null;
+
+    public function __construct()
+    {
+        $this->inscrits = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -90,6 +112,69 @@ class Sortie
     public function setInfosSortie(string $infosSortie): self
     {
         $this->infosSortie = $infosSortie;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getInscrits(): Collection
+    {
+        return $this->inscrits;
+    }
+
+    public function addInscrit(User $inscrit): self
+    {
+        if (!$this->inscrits->contains($inscrit)) {
+            $this->inscrits->add($inscrit);
+            $inscrit->addSorties($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInscrit(User $inscrit): self
+    {
+        if ($this->inscrits->removeElement($inscrit)) {
+            $inscrit->removeSorties($this);
+        }
+
+        return $this;
+    }
+
+    public function getOrganisateur(): ?User
+    {
+        return $this->organisateur;
+    }
+
+    public function setOrganisateur(?User $organisateur): self
+    {
+        $this->organisateur = $organisateur;
+
+        return $this;
+    }
+
+    public function getCampus(): ?Campus
+    {
+        return $this->campus;
+    }
+
+    public function setCampus(?Campus $campus): self
+    {
+        $this->campus = $campus;
+
+        return $this;
+    }
+
+    public function getLieu(): ?Lieu
+    {
+        return $this->lieu;
+    }
+
+    public function setLieu(?Lieu $lieu): self
+    {
+        $this->lieu = $lieu;
 
         return $this;
     }
