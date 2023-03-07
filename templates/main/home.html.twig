@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block body %}
+    <div class="infosAccueil">
+        <h4>Date du jour : </h4>
+        <h4>Participant : </h4>
+    </div>
+    <div class="filtresSorties">
+        <p>Campus : </p>
+        <p>Le nom de la sortie contient : </p>
+        <p>Entre : et</p>
+    </div>
+    <div class="filtresSorties">
+        <div class="btnRadio">
+            <input type="radio" id="organisateur" name="organisateur" value="organisateur">
+            <label for="organisateur">Sorties dont je suis l'organisateur/trice</label>
+        </div>
+        <div class="btnRadio">
+            <input type="radio" id="inscrit" name="inscrit" value="inscrit">
+            <label for="inscrit">Sorties auxquelles je suis inscrit/e</label>
+        </div>
+        <div class="btnRadio">
+            <input type="radio" id="nonInscrit" name="nonInscrit" value="nonInscrit">
+            <label for="nonInscrit">Sorties auxquelles je ne suis pas inscrit/e</label>
+        </div>
+        <div class="btnRadio">
+            <input type="radio" id="passees" name="passees" value="passees">
+            <label for="passees">Sorties passées</label>
+        </div>
+
+    </div>
+{% endblock %}
