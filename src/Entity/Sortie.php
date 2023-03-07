@@ -17,18 +17,26 @@ class Sortie
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\NotBlank(message: "Veuillez donner un nom à votre sortie")]
     private ?string $nom = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Assert\NotBlank(message: "Veuillez choisir une date et une heure de début de votre sortie")]
     private ?\DateTimeInterface $dateHeureDebut = null;
 
     #[ORM\Column(type: Types::TIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $duree = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Assert\MoreThanOrEqual(
+        propertyPath: "dateHeureDebut",
+        message: "Cette date doit être postérieure à la date et l'heure de début de la sortie "
+    )]
+    #[Assert\NotBlank(message: "Veuillez indiquer un date limite d'inscription à votre sortie")]
     private ?\DateTimeInterface $dateLimiteInscription = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank(message: "Veuillez mettre une description à votre sortie")]
     private ?string $infosSortie = null;
 
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'sorties')]
@@ -48,6 +56,7 @@ class Sortie
 
     #[ORM\ManyToOne(inversedBy: 'etatSortie')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\Choice(["creee", "ouverte", "cloturee", "activite en cours", "passee", "annulee"])]
     private ?Etat $etat = null;
 
     #[ORM\Column]

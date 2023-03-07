@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class SortieController extends AbstractController
 {
     #[Route('/list', name: 'list', methods: 'GET')]
-    public function sortie(): Response
+    public function list(): Response
     {
         return $this->render('sortie/list.html.twig');
     }
