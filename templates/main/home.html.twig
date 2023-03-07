@@ -4,7 +4,7 @@
 
 {% block body %}
     <div class="infosAccueil">
-        <h4>Date du jour : </h4>
+        <h4>Date du jour : {{ "now"|date("d/m/Y") }} </h4>
         <h4>Participant : </h4>
     </div>
     <div class="filtresSorties">
@@ -13,20 +13,20 @@
         <p>Entre : et</p>
     </div>
     <div class="filtresSorties">
-        <div class="btnRadio">
-            <input type="radio" id="organisateur" name="organisateur" value="organisateur">
+        <div class="btnCheckbox">
+            <input type="checkbox" id="organisateur" name="organisateur" value="organisateur">
             <label for="organisateur">Sorties dont je suis l'organisateur/trice</label>
         </div>
-        <div class="btnRadio">
-            <input type="radio" id="inscrit" name="inscrit" value="inscrit">
+        <div class="btnCheckbox">
+            <input type="checkbox" id="inscrit" name="inscrit" value="inscrit">
             <label for="inscrit">Sorties auxquelles je suis inscrit/e</label>
         </div>
-        <div class="btnRadio">
-            <input type="radio" id="nonInscrit" name="nonInscrit" value="nonInscrit">
+        <div class="btnCheckbox">
+            <input type="checkbox" id="nonInscrit" name="nonInscrit" value="nonInscrit">
             <label for="nonInscrit">Sorties auxquelles je ne suis pas inscrit/e</label>
         </div>
-        <div class="btnRadio">
-            <input type="radio" id="passees" name="passees" value="passees">
+        <div class="btnCheckbox">
+            <input type="checkbox" id="passees" name="passees" value="passees">
             <label for="passees">Sorties passées</label>
         </div>
 
