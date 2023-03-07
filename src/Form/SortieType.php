@@ -2,7 +2,10 @@
 
 namespace App\Form;
 
+use App\Entity\Campus;
 use App\Entity\Sortie;
+use App\Repository\SortieRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
@@ -31,9 +34,19 @@ class SortieType extends AbstractType
                 'widget' => 'single_text'
             ])
             ->add('infosSortie', TextareaType::class)
-            ->add('inscrits')
-            ->add('organisateur')
-            ->add('campus')
+            ->add('nbPlaces', TextType::class,[
+                'label' => 'Nombre de places'
+            ])
+            ->add('campus', EntityType::class, [
+                'class' => Campus::class,
+                'choice_label' => 'nom',
+                'label' => 'campus organisateur',
+              /*  'query_builder' => function(SortieRepository $sortieRepository) {
+                $qb = $sortieRepository->createQueryBuilder("s");
+                $qb->addOrderBy("s.nom");
+                return $qb;
+                }*/
+            ])
             ->add('lieu')
             ->add('etat', ChoiceType::class, [
                 'choices' => [
