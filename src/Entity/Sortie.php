@@ -51,7 +51,9 @@ class Sortie
     private ?Etat $etat = null;
 
     #[ORM\Column]
-    private ?int $nbPlaces = null;
+    private ?int $nbInscriptionMax = null;
+
+
 
     public function __construct()
     {
@@ -198,15 +200,17 @@ class Sortie
         return $this;
     }
 
-    public function getNbPlaces(): ?int
+    public function getNbInscriptionMax(): ?int
     {
-        return $this->nbPlaces;
+        return $this->nbInscriptionMax;
     }
 
-    public function setNbPlaces(int $nbPlaces): self
+    public function setNbInscriptionMax(int $nbInscriptionMax): self
     {
-        $this->nbPlaces = $nbPlaces;
+        $this->nbInscriptionMax = $nbInscriptionMax;
 
         return $this;
     }
+
+
 }
