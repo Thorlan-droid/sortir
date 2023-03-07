@@ -46,6 +46,10 @@ class Sortie
     #[ORM\JoinColumn(nullable: false)]
     private ?Lieu $lieu = null;
 
+    #[ORM\ManyToOne(inversedBy: 'etatSortie')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Etat $etat = null;
+
     public function __construct()
     {
         $this->inscrits = new ArrayCollection();
@@ -175,6 +179,18 @@ class Sortie
     public function setLieu(?Lieu $lieu): self
     {
         $this->lieu = $lieu;
+
+        return $this;
+    }
+
+    public function getEtat(): ?Etat
+    {
+        return $this->etat;
+    }
+
+    public function setEtat(?Etat $etat): self
+    {
+        $this->etat = $etat;
 
         return $this;
     }
