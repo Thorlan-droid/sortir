@@ -1,0 +1,12 @@
+<nav>
+    <ul>
+        <li><a href="{{ path('main_home') }}">Accueil</a></li>
+        <li><a href="{{ path('sortie_add') }}">Créer une sortie</a></li>
+        <li><a href="{{ path('sortie_list') }}">Liste des sortie</a></li>
+        {% if is_granted("ROLE_ADMIN") %}
+            <li><a href="{{ path('admin_villes') }}">Villes</a></li>
+            <li><a href="{{ path('admin_campus') }}">Campus</a></li>
+        {% endif %}
+        <li><a href="{{ path('app_logout') }}">Se déconnecter</a></li>
+    </ul>
+</nav>
