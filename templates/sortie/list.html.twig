@@ -1,10 +1,78 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}
-    {{ parent() }} | List
-{% endblock %}
+{% block title %}Accueil{% endblock %}
 
 {% block body %}
-    <h2>Liste des sorties</h2>
+    <div class="infosAccueil">
+        <h4>Date du jour : {{ "now"|date("d/m/Y") }} </h4>
+        <h4>Participant : </h4>
+    </div>
+
+    <h3>Filtrer les sorties</h3>
+
+
+    <form action="{{ path('sortie_recherche') }}" method="post">
+
+        <div>
+            <label for="Campus-select">Campus :</label>
+            <select name="Campus-select" id="Campus-select">
+                <option value="Tous">Tous les Campus</option>
+                {#  {% for site in campus %}
+                    <option value="{{ site.nom }}" {% if (siteA is defined) and (siteA == site.nom) %} selected="selected" {% endif %}>{{ site.nom }}</option>
+                {% endfor %}#}
+            </select>
+        </div>
+
+        <div>
+            <label for="rechercher">Le nom de la sortie contient : </label>
+            <input type="text" id="rechercher" name="rechercher"
+                   placeholder="rechercher" {% if choix is defined %}
+                   value="{{ choix }}{% endif %}">
+        </div>
+        <div>
+            <label for="debut">Entre </label>
+            <input type="date" id="debut" name="debut-sortie" {% if choixDateDebut is defined %}
+                   value="{{ choixDateDebut }}{% endif %}">
+        </div>
+        <div>
+            <label for="fin" class="col-form-label">et </label>
+            <input type="date" id="fin" name="fin-sortie" {% if choixDateFin is defined %}
+                   value="{{ choixDateFin }}{% endif %}">
+        </div>
+        <div>
+            <input type="checkbox" id="organisateur" name="organisateur"
+                   value="1"> {#{{ app.user.id }}" {% if choixOrganisateur is defined and choixOrganisateur is not null %}
+                checked="checked" {% endif %}> #}
+            <label for="organisateur">Sorties dont je suis l'organisateur/trice</label>
+        </div>
+        <div>
+            <input type="checkbox" id="inscrit" name="inscrit"
+                   value="1"> {#{{ app.user.id }}" {% if choixInscrit is defined and choixInscrit is not null %}
+                checked="checked" {% endif %}> #}
+            <label for="inscrit">Sorties auxquelles je suis inscrit/e</label>
+        </div>
+        <div>
+            <input type="checkbox" id="pasInscrit" name="pasInscrit"
+                   value="1"> {#{{ app.user.id }}" {% if choixPasInscrit is defined and choixPasInscrit is not null %}
+                checked="checked" {% endif %}> #}
+            <label for="pasInscrit">Sorties auxquelles je ne suis pas inscrit/e</label>
+        </div>
+        <div>
+            <input type="checkbox" id="passee" name="passee"
+                   value="Passée" {% if choixPassee is defined  and choixPassee is not null %}
+                checked="checked" {% endif %}>
+            <label for="passee">Sorties passées</label>
+        </div>
+        <div>
+            <button type="submit" value="submit" name="ok">Rechercher </button>
+        </div>
+    </form>
+
+    <div>
+        <button type="button" name="créer">Créer une sortie</button>
+    </div>
 {% endblock %}
+
+
+
 
