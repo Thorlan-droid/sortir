@@ -89,11 +89,22 @@ class SortieController extends AbstractController
 
 
     #[Route('/list', name: 'list', methods: 'GET')]
-    public function sortie(): Response
+    public function list(): Response
     {
         return $this->render('sortie/list.html.twig');
     }
 
+    #[Route('/{id}', name: 'show', requirements: ['id'=>'\d+'])]
+    public function show(int $id, SortieRepository $sortieRepository) : Response {
+        $sortie = $sortieRepository->find($id);
+
+        if(!$sortie) {
+            throw $this->createNotFoundException("Oops, page introuvable !");
+        }
+        return $this->render('/sortie/show.html.twig', [
+            'sortie' => $sortie
+        ]);
+    }
     #[Route('/add', name: 'add')]
     public function add(
         SortieRepository $sortieRepository,

@@ -3,7 +3,10 @@
 namespace App\Form;
 
 use App\Entity\Campus;
+use App\Entity\Lieu;
 use App\Entity\Sortie;
+use App\Entity\User;
+use App\Entity\Ville;
 use App\Repository\SortieRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -21,45 +24,52 @@ class SortieType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('nom', TextType::class)
+            ->add('nom', TextType::class, [
+                'label' => 'Nom de la sortie'
+            ])
             ->add('dateHeureDebut', DateTimeType::class, [
-                'label' => 'Date heure debut',
+                'label' => 'Date et heure de la sortie',
                 'html5' => true,
                 'widget' => 'single_text'
             ])
             ->add('duree', TimeType::class)
             ->add('dateLimiteInscription', DateType::class, [
-                'label' => 'Date limite inscription',
+                'label' => 'Date limite d inscription',
                 'html5' => true,
                 'widget' => 'single_text'
             ])
-            ->add('infosSortie', TextareaType::class)
-            ->add('nbPlaces', TextType::class,[
+            ->add('infosSortie', TextareaType::class, [
+                'label' => 'Description et infos'
+            ])
+            ->add('nbInscriptionMax', TextType::class, [
                 'label' => 'Nombre de places'
             ])
             ->add('campus', EntityType::class, [
-                'class' => Campus::class,
-                'choice_label' => 'nom',
-                'label' => 'campus organisateur',
-              /*  'query_builder' => function(SortieRepository $sortieRepository) {
-                $qb = $sortieRepository->createQueryBuilder("s");
-                $qb->addOrderBy("s.nom");
-                return $qb;
-                }*/
+                'class' => User::class,
+                'choice_label' => 'campus',
+                'label' => 'Campus organisateur',
+                /*  'query_builder' => function(SortieRepository $sortieRepository) {
+                  $qb = $sortieRepository->createQueryBuilder("s");
+                  $qb->addOrderBy("s.nom");
+                  return $qb;
+                  }*/
             ])
             ->add('lieu')
-            ->add('etat', ChoiceType::class, [
-                'choices' => [
-                    "Creee" => "creee",
-                    "Ouverte" => "ouverte",
-                    "Cloturee" => "cloturee",
-                    "Activite en cours" => "Activite en cours",
-                    "Passee" => "Passee",
-                    "Annulee" => "Annulee"
-                ],
-                'multiple' => false,
-                'expanded' => false
-            ]);
+            ->add('codePostal', EntityType::class, [
+                'class' => Ville::class,
+                'label' => 'Code Postal',
+                'choice_label' => function ($codePostal) {
+                    return $codePostal->getCodePostal();
+                }
+            ])
+        ->add('rue', EntityType::class, [
+            'class' => Lieu::class,
+            'label' => 'Rue',
+            'choice_label' => function ($rue) {
+                return $rue->getRue();
+            }
+        ]);
+
     }
 
     public function configureOptions(OptionsResolver $resolver): void
