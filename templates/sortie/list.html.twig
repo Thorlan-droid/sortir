@@ -68,8 +68,44 @@
         </div>
     </form>
 
+
+
+
+
+    <table>
+        <thead>
+            <tr>
+                <th>Nom de la sortie</th>
+                <th>Date de la sortie</th>
+                <th>Clôture</th>
+                <th>Inscrits/places</th>
+                <th>Etat</th>
+                <th>Inscrit</th>
+                <th>Organisateur</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sortie in sorties %}
+                <tr>
+                    <td>{{ sortie.nom }}</td>
+                    <td>{{ sortie.dateHeureDebut.format('d/m/Y H:i') }}</td>
+                    <td>{{ sortie.dateLimiteInscription.format('d/m/Y H:i') }}</td>
+                    <td>{{ sortie.inscrits|length }}/{{ sortie.nbInscriptionMax }}</td>
+                    <td>Ouvert</td>
+                    <td></td>
+                    <td>Bob</td>
+                    <td>        <a href="{{ path('sortie_show', {'id': sortie.id}) }}">test</a>
+                    </td>
+
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
     <div>
-        <button type="button" name="créer">Créer une sortie</button>
+        <a href="{{ path('sortie_add') }}" ><button type="button">Créer une sortie</button></a>
     </div>
 {% endblock %}
 

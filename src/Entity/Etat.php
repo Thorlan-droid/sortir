@@ -15,6 +15,7 @@ class Etat
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\Choice(["creee", "ouverte", "cloturee", "activite en cours", "passee", "annulee"])]
     #[ORM\Column(length: 50)]
     private ?string $libelle = null;
 
@@ -30,7 +31,6 @@ class Etat
     {
         return $this->id;
     }
-
     public function getLibelle(): ?string
     {
         return $this->libelle;

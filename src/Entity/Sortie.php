@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -9,11 +10,13 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: SortieRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Sortie
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
@@ -28,9 +31,9 @@ class Sortie
     private ?\DateTimeInterface $duree = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Assert\MoreThanOrEqual(
+    #[Assert\LessThanOrEqual(
         propertyPath: "dateHeureDebut",
-        message: "Cette date doit être postérieure à la date et l'heure de début de la sortie "
+        message: "Cette date doit être antérieure à la date et l'heure de début de la sortie "
     )]
     #[Assert\NotBlank(message: "Veuillez indiquer un date limite d'inscription à votre sortie")]
     private ?\DateTimeInterface $dateLimiteInscription = null;
@@ -220,6 +223,7 @@ class Sortie
 
         return $this;
     }
+
 
 
 }

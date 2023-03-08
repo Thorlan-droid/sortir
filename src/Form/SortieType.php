@@ -44,7 +44,12 @@ class SortieType extends AbstractType
             ->add('nbInscriptionMax', TextType::class, [
                 'label' => 'Nombre de places'
             ])
-            ->add('campus', EntityType::class, [
+            ->add('lieu', EntityType::class,[
+                'class'=> Lieu::class,
+                'choice_label' => 'nom',
+                'label' => 'Lieu',
+            ]);
+            /*->add('campus', EntityType::class, [
                 'class' => User::class,
                 'choice_label' => 'campus',
                 'label' => 'Campus organisateur',
@@ -52,10 +57,10 @@ class SortieType extends AbstractType
                   $qb = $sortieRepository->createQueryBuilder("s");
                   $qb->addOrderBy("s.nom");
                   return $qb;
-                  }*/
-            ])
-            ->add('lieu')
-            ->add('codePostal', EntityType::class, [
+                  }
+            ])*/
+
+           /* ->add('codePostal', EntityType::class, [
                 'class' => Ville::class,
                 'label' => 'Code Postal',
                 'choice_label' => function ($codePostal) {
@@ -68,7 +73,7 @@ class SortieType extends AbstractType
             'choice_label' => function ($rue) {
                 return $rue->getRue();
             }
-        ]);
+        ]);*/
 
     }
 

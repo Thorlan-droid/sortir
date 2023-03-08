@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Campus;
 use App\Form\SortieType;
 use App\Repository\EtatRepository;
 use App\Repository\UserRepository;
@@ -10,6 +11,8 @@ use App\Repository\SortieRepository;
 
 use App\Entity\Sortie;
 use App\Utils\ChangerEtat;
+use ContainerAOlQoqJ\getCampusRepositoryService;
+use http\Client\Curl\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,16 +23,17 @@ class SortieController extends AbstractController
 {
     #[Route('', name: 'list')]
     #[Route('/list', name: 'list')]
-    public function list(): Response
+    public function list(SortieRepository $sortieRepository): Response
     {
-        return $this->render('sortie/list.html.twig'
-
-        );
+        $sorties = $sortieRepository->findAll();
+        return $this->render('sortie/list.html.twig', [
+            'sorties' => $sorties
+        ]);
     }
 
     #[Route('/recherche', name: 'recherche')]
     public function rechercheParFiltre(
-        CampusRepository   $campusRepository,
+        CampusRepository $campusRepository,
         SortieRepository $sortieRepository,
         ChangerEtat      $changerEtat,
 
@@ -55,27 +59,27 @@ class SortieController extends AbstractController
 
 
         if ($choixCampus != 'Tous') {
-            $leSiteId = $campusRepository->findOneBy(['nom' => $choixCampus]);
-            $leSiteId = $leSiteId->getId();
+            $choixCampus = $campusRepository->findOneBy(['nom' => $choixCampus]);
+            $choixCampus = $choixCampus->getId();
         } else {
-            $leSiteId = -1;
+            $choixCampus = -1;
         }
         if ((($choixDateDebut != null) and ($choixDateFin == null)) or (($choixDateFin != null) and $choixDateDebut == null)) {
             $this->addFlash('error', 'Veuillez sélectionner les deux dates');
             $sorties = $sortieRepository->findAll();
 
         } else {
-            $sorties = $sortieRepository->selectSortiesAvecFiltres($leSiteId, $choixRecherche, $choixDateDebut, $choixDateFin,
+            $sorties = $sortieRepository->selectSortiesAvecFiltres($choixCampus, $choixRecherche, $choixDateDebut, $choixDateFin,
                 $choixOrganisateur, $choixInscrit, $choixPasInscrit, $choixPassee);
         }
 
         $changerEtat->verifierEtat();
-        $sites = $campusRepository->findAll();
+        $campus = $campusRepository->findAll();
 
         return $this->render('sortie/list.html.twig', [
             "sortie" => $sorties,
-            "campus" => $sites,
-            "leSite" => $choixCampus,
+            "campus" => $campus,
+            "choixCampus" => $choixCampus,
             "choixRecherche" => $choixRecherche,
             "choixDateDebut" => $choixDateDebut,
             "choixDateFin" => $choixDateFin,
@@ -86,23 +90,25 @@ class SortieController extends AbstractController
         ]);
     }
 
-
-    #[Route('/{id}', name: 'show', requirements: ['id'=>'\d+'])]
-    public function show(int $id, SortieRepository $sortieRepository) : Response {
+    #[Route('/{id}', name: 'show', requirements: ['id' => '\d+'])]
+    public function show(int $id, SortieRepository $sortieRepository): Response
+    {
         $sortie = $sortieRepository->find($id);
 
-        if(!$sortie) {
+        if (!$sortie) {
             throw $this->createNotFoundException("Oops, page introuvable !");
         }
         return $this->render('/sortie/show.html.twig', [
             'sortie' => $sortie
         ]);
     }
+
     #[Route('/add', name: 'add')]
     public function add(
         SortieRepository $sortieRepository,
-        Request $request
-    ):Response
+        EtatRepository $etatRepository,
+        Request          $request,
+    ): Response
     {
         $sortie = new Sortie();
 
@@ -110,15 +116,57 @@ class SortieController extends AbstractController
 
         $sortieForm->handleRequest($request);
 
-             if($sortieForm->isSubmitted() && $sortieForm->isValid()) {
-                $sortieRepository->save($sortie, true);
-                $this->addFlash("success", "Sortie ajoutée !");
+        if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
+
+            $campus = $this->getUser()->getCampus();
+            $organisateur = $this->getUser();
+            $etat = $etatRepository->findOneBy(array('libelle'=>'Creee'));
+
+            $campus->getNom();
+            $sortie->setEtat($etat);
+            $sortie->setCampus($campus);
+
+            $sortie->setOrganisateur($organisateur);
+
+            $sortieRepository->save($sortie, true);
+            $this->addFlash("success", "Sortie ajoutée !");
 
 
-             }
+        }
         return $this->render('sortie/add.html.twig', [
             'sortieForm' => $sortieForm->createView()
         ]);
     }
+
+    #[Route('/update/{id}', name: 'update', requirements: ['id' => '\d+'])]
+    public function update(int $id, SortieRepository $sortieRepository) : Response
+    {
+        $sortie = $sortieRepository->find($id);
+
+        if(!$sortie){
+            throw $this->createNotFoundException('Nous n\'avons pas trouvé votre sortie');
+        }
+        $sortieForm= $this->createForm(SortieType::class, $sortie);
+
+        return $this->render('/sortie/update.html.twig', [
+           'sortie'=>$sortie,
+           'sortieUpdateForm' => $sortieForm->createView()
+        ]);
+    }
+
+    #[Route('/remove/{id}', name: 'remove')]
+    public function remove(int $id, SortieRepository $sortieRepository)
+    {
+        $sortie = $sortieRepository->find($id);
+
+        if ($sortie) {
+            $sortieRepository->remove($sortie, true);
+            $this->addFlash("warning", 'Votre sortie a bien été supprimée');
+        } else {
+            throw $this->createNotFoundException('Cette sortie n\'existe pas');
+        }
+        return $this->redirectToRoute('sortie_list');
+    }
+
 }
 
