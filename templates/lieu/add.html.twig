@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ parent() }} | Ajouter un lieu
+{% endblock %}
+
+{% block body %}
+    <h1>Ajouter un lieu</h1>
+
+    <div class="ajouterLieu">
+        {{ form_start(lieuForm) }}
+        {{ form_label(lieuForm.nom) }}
+        {{ form_widget(lieuForm.nom) }}
+        {{ form_errors(lieuForm.nom) }}
+    </div>
+
+    {{ form_rest(lieuForm) }}
+    <a class="link_button" href="{{ path('sortie_add')}}"
+       onclick="return confirm('Voulez vous ajouter ce lieu ?')">Ajouter</a>
+    {{ form_end(lieuForm) }}
+
+{% endblock %}
+
+
+

@@ -14,6 +14,11 @@
     {{ form_errors(sortieForm.nom) }}
     </div>
 
+    {{ form_label(sortieForm.lieu) }}
+    {{ form_widget(sortieForm.lieu) }}
+    {{ form_errors(sortieForm.lieu) }}
+    <a class="link_button" href="{{ path('lieu_add')}}">Ajouter</a>
+
     {{ form_rest(sortieForm) }}
     <button>Enregistrer</button>
     {{ form_end(sortieForm) }}
