@@ -5,29 +5,28 @@
 {% endblock %}
 
 {% block body %}
-    <h2>Afficher une sortie</h2>
+    <h2>Détails de la sortie</h2>
 
     <div class="AffichageSortie">
-        <p>Nom de la sortie {{ sortie.nom }}</p>
-        <p>Date et heure : {{ sortie.dateHeureDebut.format('d/m/Y h:m') }}</p>
-        <p>Date limite d'inscription : </p>
-        <p>Nombre de places : </p>
-        <p>Durée : {{ sortie.duree }}</p>
-        <p>Description et infos : {{ sortie.infosSortie }}</p>
 
-        <p>Lieu : {{ sortie.lieu }}</p>
-        <p>Code postal : </p>
-        {#  <p>Latitude : {{ sortie.status }}</p>
-        <p>Longitude : {{ sortie.status }}</p>#}
-        <p>Clôture : {{ sortie.dateLimiteInscription }}</p>
-        <p>Nombre de places : </p>
+        <div>Nom de la sortie {{ sortie.nom }}</div>
+        <div>Date et heure : {{ sortie.date_heure_debut.format('d/m/Y h:m') }}</div>
+        <div>Date limite d'inscription : </div>
+        <div>Nombre de places : </div>
+        <div>Durée : {{ sortie.duree }}</div>
+        <div>Description et infos : {{ sortie.infos_sortie }}</div>
+
+        <div>Lieu : {{ sortie.lieu }}</div>
+        <div>Code postal : </div>
+        <div>Clôture : {{ sortie.date_limite_inscription }}</div>
+        <div>Nombre de places : </div>
 
 
         <section class="inscrits">
             <h3>Liste des inscrits :</h3>
             {% for inscrit in sortie.inscrits %}
-                <p>{{ user.nom }}</p>
-                <p>{{ user.ville }}</p>
+                <div>{{ user.nom }}</div>
+                <div>{{ user.ville }}</div>
             {% endfor %}
         </section>
     </div>

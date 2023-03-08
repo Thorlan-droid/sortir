@@ -20,11 +20,12 @@ class SortieController extends AbstractController
 {
     #[Route('', name: 'list')]
     #[Route('/list', name: 'list')]
-    public function list(): Response
+    public function list(SortieRepository $sortieRepository): Response
     {
-        return $this->render('sortie/list.html.twig'
-
-        );
+        $sorties = $sortieRepository->findAll();
+        return $this->render('sortie/list.html.twig', [
+            'sorties' => $sorties
+        ]);
     }
 
     #[Route('/recherche', name: 'recherche')]
@@ -55,27 +56,27 @@ class SortieController extends AbstractController
 
 
         if ($choixCampus != 'Tous') {
-            $leSiteId = $campusRepository->findOneBy(['nom' => $choixCampus]);
-            $leSiteId = $leSiteId->getId();
+            $choixCampus = $campusRepository->findOneBy(['nom' => $choixCampus]);
+            $choixCampus = $choixCampus->getId();
         } else {
-            $leSiteId = -1;
+            $choixCampus = -1;
         }
         if ((($choixDateDebut != null) and ($choixDateFin == null)) or (($choixDateFin != null) and $choixDateDebut == null)) {
             $this->addFlash('error', 'Veuillez sélectionner les deux dates');
             $sorties = $sortieRepository->findAll();
 
         } else {
-            $sorties = $sortieRepository->selectSortiesAvecFiltres($leSiteId, $choixRecherche, $choixDateDebut, $choixDateFin,
+            $sorties = $sortieRepository->selectSortiesAvecFiltres($choixCampus, $choixRecherche, $choixDateDebut, $choixDateFin,
                 $choixOrganisateur, $choixInscrit, $choixPasInscrit, $choixPassee);
         }
 
         $changerEtat->verifierEtat();
-        $sites = $campusRepository->findAll();
+        $campus = $campusRepository->findAll();
 
         return $this->render('sortie/list.html.twig', [
             "sortie" => $sorties,
-            "campus" => $sites,
-            "leSite" => $choixCampus,
+            "campus" => $campus,
+            "choixCampus" => $choixCampus,
             "choixRecherche" => $choixRecherche,
             "choixDateDebut" => $choixDateDebut,
             "choixDateFin" => $choixDateFin,
