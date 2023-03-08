@@ -28,9 +28,9 @@ class Sortie
     private ?\DateTimeInterface $duree = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Assert\MoreThanOrEqual(
+    #[Assert\LessThanOrEqual(
         propertyPath: "dateHeureDebut",
-        message: "Cette date doit être postérieure à la date et l'heure de début de la sortie "
+        message: "Cette date doit être antérieure à la date et l'heure de début de la sortie "
     )]
     #[Assert\NotBlank(message: "Veuillez indiquer un date limite d'inscription à votre sortie")]
     private ?\DateTimeInterface $dateLimiteInscription = null;
