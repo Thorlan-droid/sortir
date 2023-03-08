@@ -30,8 +30,24 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        //$this->addSeries();
+        $this->ajoutCampus(3);
         $this->ajoutUtilisateur(10);
+
+    }
+
+    private function ajoutCampus(int $number){
+
+        $campus = new Campus();
+
+        for ($i = 0; $i < $number; $i++) {
+
+            $campus->setNom($this->faker->city);
+
+            $this->entityManager->persist($campus);
+        }
+
+        $this->entityManager->flush();
+
     }
 
 
@@ -46,7 +62,7 @@ class AppFixtures extends Fixture
             $user = new User();
 
             $user
-                ->setRoles(['ROLE_USER'])
+                ->setRoles(['ROLE_USER', 'ROLE_ADMIN'])
                 ->setUsername($this->faker->userName)
                 ->setNom($this->faker->firstName)
                 ->setPrenom($this->faker->lastName)

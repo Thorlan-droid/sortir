@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h2>Profil Utilisateur</h2>
+
+    <div>
+        <h2>{{ user.username }}</h2>
+        <div>Nom : {{ user.nom }}</div>
+        <div>Prenom : {{ user.prenom }}</div>
+        <div>Email : {{ user.email }}</div>
+        <div>Telephone : {{ user.telephone }}</div>
+        <div>Campus : {{ user.campus.nom }}</div>
+
+
+    </div>
+{% endblock %}
+
+{% block title %}
+    Detail !
+{% endblock %}

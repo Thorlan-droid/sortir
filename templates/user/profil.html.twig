@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h2>Mon Profil</h2>
+
+    {{ form_start(userForm) }}
+    {{ form_widget(userForm) }}
+    <button>Enregistrer les modifications</button>
+    {{ form_end(userForm) }}
+{% endblock %}

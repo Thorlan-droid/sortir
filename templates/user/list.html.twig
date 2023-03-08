@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+    <h2>Incrits</h2>
+    <section class="user-list">
+        {%  for user in users %}
+            <article>
+                <a href="{{ path('user_show', {'id' : user.id}) }}">{{ user.username }}</a>
+            </article>
+        {% endfor %}
+    </section>
+    {% block header %}{% endblock %}
+    {% block main %}{% endblock %}
+    {% block footer %}{% endblock %}
+
+
+{% endblock %}
