@@ -10,15 +10,15 @@
     <div class="AffichageSortie">
 
         <div>Nom de la sortie {{ sortie.nom }}</div>
-        <div>Date et heure : {{ sortie.date_heure_debut.format('d/m/Y h:m') }}</div>
+        <div>Date et heure : {{ sortie.dateHeureDebut | date('Y-m-d H:i:s')}}</div>
         <div>Date limite d'inscription : </div>
         <div>Nombre de places : </div>
-        <div>Durée : {{ sortie.duree }}</div>
-        <div>Description et infos : {{ sortie.infos_sortie }}</div>
+        <div>Durée : {{ sortie.duree | date('Y-m-d H:i:s')}}</div>
+        <div>Description et infos : {{ sortie.infosSortie }}</div>
 
-        <div>Lieu : {{ sortie.lieu }}</div>
+        <div>Lieu : {{ sortie.lieu.nom }}</div>
         <div>Code postal : </div>
-        <div>Clôture : {{ sortie.date_limite_inscription }}</div>
+        <div>Clôture : {{ sortie.dateLimiteInscription | date('Y-m-d H:i:s')}}</div>
         <div>Nombre de places : </div>
 
 
@@ -31,5 +31,4 @@
         </section>
     </div>
 {% endblock %}
-
 

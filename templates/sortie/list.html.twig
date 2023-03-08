@@ -92,6 +92,12 @@
                     <td>{{ sortie.dateHeureDebut.format('d/m/Y H:i') }}</td>
                     <td>{{ sortie.dateLimiteInscription.format('d/m/Y H:i') }}</td>
                     <td>{{ sortie.inscrits|length }}/{{ sortie.nbInscriptionMax }}</td>
+                    <td>Ouvert</td>
+                    <td></td>
+                    <td>Bob</td>
+                    <td>        <a href="{{ path('sortie_show', {'id': sortie.id}) }}">test</a>
+                    </td>
+
                 </tr>
             {% endfor %}
         </tbody>
