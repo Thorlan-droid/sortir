@@ -1,5 +1,5 @@
 <h2>{% block formTitle %}{% endblock %}</h2>
 {{ form_start(sortieForm) }}
 {{ form_widget(sortieForm) }}
-<button>{% block buttonLabel %}{% endblock %}</button>
+{% block buttonLabel %}{% endblock %}
 {{ form_end(sortieForm) }}

@@ -5,10 +5,22 @@
 {% endblock %}
 
 {% block body %}
-    {% embed 'view/form/sortieForm.html.twig' with {'sortieForm' : sortieUpdateForm} %}
-        {% block formTitle %} Modifier une sortie {% endblock %}
-        {% block buttonLabel %} Modifier {% endblock %}
-    {% endembed %}
+    <h1>Modifier une sortie</h1>
+
+    <div class="modifierSortie">
+        {{ form_start(sortieForm) }}
+        {{ form_label(sortieForm.nom) }}
+        {{ form_widget(sortieForm.nom) }}
+        {{ form_errors(sortieForm.nom) }}
+    </div>
+
+    {{ form_rest(sortieForm) }}
+    <button>Enregistrer</button>
+
+    {{ form_end(sortieForm) }}
+
+
+
 {% endblock %}
 
 

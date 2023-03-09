@@ -2,11 +2,13 @@
 
 namespace App\Form;
 
+use App\Controller\LieuController;
 use App\Entity\Campus;
 use App\Entity\Lieu;
 use App\Entity\Sortie;
 use App\Entity\User;
 use App\Entity\Ville;
+use App\Repository\LieuRepository;
 use App\Repository\SortieRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -48,6 +50,10 @@ class SortieType extends AbstractType
                 'class'=> Lieu::class,
                 'choice_label' => 'nom',
                 'label' => 'Lieu',
+                'query_builder' => function(LieuRepository $lieuRepository) {
+                    return $lieuRepository
+                        ->createQueryBuilder("l")->addOrderBy("l.nom");
+                }
             ]);
             /*->add('campus', EntityType::class, [
                 'class' => User::class,
