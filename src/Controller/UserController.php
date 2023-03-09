@@ -44,6 +44,7 @@ class UserController extends AbstractController
     {
         $user = new User();
 
+
         $userForm = $this->createForm(ModifierUtilisateurType::class, $user);
 
         if($userForm->isSubmitted() && $userForm->isValid()) {
