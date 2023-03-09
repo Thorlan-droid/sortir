@@ -15,8 +15,9 @@
     </div>
 
     {{ form_rest(lieuForm) }}
-    <a class="link_button" href="{{ path('sortie_add')}}"
-       onclick="return confirm('Voulez vous ajouter ce lieu ?')">Ajouter</a>
+    <button onclick="return confirm('Voulez vous ajouter ce lieu ?')" >Ajouter</button>
+{#    <a class="link_button" href="{{ path('sortie_add')}}"#}
+{#       onclick="return confirm('Voulez vous ajouter ce lieu ?')">Ajouter</a>#}
     {{ form_end(lieuForm) }}
 
 {% endblock %}
