@@ -106,8 +106,8 @@ class SortieController extends AbstractController
     #[Route('/add', name: 'add')]
     public function add(
         SortieRepository $sortieRepository,
-        EtatRepository $etatRepository,
-        LieuController $lieuController,
+        EtatRepository   $etatRepository,
+        LieuController   $lieuController,
         Request          $request,
     ): Response
     {
@@ -121,7 +121,7 @@ class SortieController extends AbstractController
 
             $campus = $this->getUser()->getCampus();
             $organisateur = $this->getUser();
-            $etat = $etatRepository->findOneBy(array('libelle'=>'Creee'));
+            $etat = $etatRepository->findOneBy(array('libelle' => 'Creee'));
 
             $campus->getNom();
             $sortie->setEtat($etat);
@@ -140,19 +140,40 @@ class SortieController extends AbstractController
     }
 
     #[Route('/update/{id}', name: 'update', requirements: ['id' => '\d+'])]
-    public function update(int $id, SortieRepository $sortieRepository) : Response
+    public function update(int $id, SortieRepository $sortieRepository, EtatRepository $etatRepository, Request $request): Response
     {
         $sortie = $sortieRepository->find($id);
 
-        if(!$sortie){
+        if (!$sortie) {
             throw $this->createNotFoundException('Nous n\'avons pas trouvé votre sortie');
         }
-        $sortieForm= $this->createForm(SortieType::class, $sortie);
+        $sortieForm = $this->createForm(SortieType::class, $sortie);
+
+        $sortieForm->handleRequest($request);
+
+        if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
+
+            $campus = $this->getUser()->getCampus();
+            $organisateur = $this->getUser();
+            $etat = $etatRepository->findOneBy(array('libelle' => 'Creee'));
+
+            $campus->getNom();
+            $sortie->setEtat($etat);
+            $sortie->setCampus($campus);
+
+            $sortie->setOrganisateur($organisateur);
+
+            $sortieRepository->save($sortie, true);
+            $this->addFlash("success", "Sortie modifiée !");
+            return $this->redirectToRoute("sortie_list");
+        }
 
         return $this->render('/sortie/update.html.twig', [
-           'sortie'=>$sortie,
-           'sortieUpdateForm' => $sortieForm->createView()
+            'sortie' => $sortie,
+            'sortieForm' => $sortieForm->createView()
         ]);
+
+        // return $this->redirectToRoute("sortie_list");
     }
 
     #[Route('/remove/{id}', name: 'remove')]

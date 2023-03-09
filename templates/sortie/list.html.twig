@@ -21,7 +21,7 @@
                 <option value="Tous">Tous les Campus</option>
                 {#  {% for site in campus %}
                     <option value="{{ site.nom }}" {% if (siteA is defined) and (siteA == site.nom) %} selected="selected" {% endif %}>{{ site.nom }}</option>
-                {% endfor %}#}
+                {% endfor %} #}
             </select>
         </div>
 
@@ -43,19 +43,19 @@
         </div>
         <div>
             <input type="checkbox" id="organisateur" name="organisateur"
-                   value="1"> {#{{ app.user.id }}" {% if choixOrganisateur is defined and choixOrganisateur is not null %}
+                   value="1"> {# {{ app.user.id }}" {% if choixOrganisateur is defined and choixOrganisateur is not null %}
                 checked="checked" {% endif %}> #}
             <label for="organisateur">Sorties dont je suis l'organisateur/trice</label>
         </div>
         <div>
             <input type="checkbox" id="inscrit" name="inscrit"
-                   value="1"> {#{{ app.user.id }}" {% if choixInscrit is defined and choixInscrit is not null %}
+                   value="1"> {# {{ app.user.id }}" {% if choixInscrit is defined and choixInscrit is not null %}
                 checked="checked" {% endif %}> #}
             <label for="inscrit">Sorties auxquelles je suis inscrit/e</label>
         </div>
         <div>
             <input type="checkbox" id="pasInscrit" name="pasInscrit"
-                   value="1"> {#{{ app.user.id }}" {% if choixPasInscrit is defined and choixPasInscrit is not null %}
+                   value="1"> {# {{ app.user.id }}" {% if choixPasInscrit is defined and choixPasInscrit is not null %}
                 checked="checked" {% endif %}> #}
             <label for="pasInscrit">Sorties auxquelles je ne suis pas inscrit/e</label>
         </div>
@@ -66,7 +66,7 @@
             <label for="passee">Sorties passées</label>
         </div>
         <div>
-            <button type="submit" value="submit" name="ok">Rechercher </button>
+            <button type="submit" value="submit" name="ok">Rechercher</button>
         </div>
     </form>
 
@@ -76,49 +76,51 @@
 
     <table>
         <thead>
-            <tr>
-                <th>Nom de la sortie</th>
-                <th>Date de la sortie</th>
-                <th>Clôture</th>
-                <th>Inscrits/places</th>
-                <th>Etat</th>
-                <th>Inscrit</th>
-                <th>Organisateur</th>
-                <th>Action</th>
-            </tr>
+        <tr>
+            <th>Nom de la sortie</th>
+            <th>Date de la sortie</th>
+            <th>Clôture</th>
+            <th>Inscrits/places</th>
+            <th>Etat</th>
+            <th>Inscrit</th>
+            <th>Organisateur</th>
+            <th>Action</th>
+        </tr>
         </thead>
         <tbody>
-            {% for sortie in sorties %}
-                <tr>
-                    <td>{{ sortie.nom }}</td>
-                    <td>{{ sortie.dateHeureDebut.format('d/m/Y H:i') }}</td>
-                    <td>{{ sortie.dateLimiteInscription.format('d/m/Y H:i') }}</td>
-                    <td>{{ sortie.inscrits|length }}/{{ sortie.nbInscriptionMax }}</td>
-                    <td>Ouvert</td>
-                    <td></td>
-                    <td>Bob</td>
-                    <td>
-                        <a href="{{ path('sortie_show', {'id': sortie.id}) }}">Afficher</a>
-                        {% if sortie.organisateur.id == app.user.id %}
-                            <a href="{{ path('sortie_update', {'id':sortie.id}) }}"> - Modifier</a>
-                            <form  method="POST" action="{{ path("sortie_remove", {'id' : sortie.id }) }}" onsubmit="return confirm('Confirmation de la suppression ?');">
-                                <input type="hidden" name="_method" value="DELETE">
-                                <input type="hidden" name="_token" value="{{ csrf_token('remove'~sortie.id) }}">
-                                <button  type="submit">- Supprimer</button>
-                            </form>
-                        {% endif %}
-                    </td>
+        {% for sortie in sorties %}
+            <tr>
+                <td>{{ sortie.nom }}</td>
+                <td>{{ sortie.dateHeureDebut.format('d/m/Y H:i') }}</td>
+                <td>{{ sortie.dateLimiteInscription.format('d/m/Y H:i') }}</td>
+                <td>{{ sortie.inscrits|length }}/{{ sortie.nbInscriptionMax }}</td>
+                <td>Ouvert</td>
+                <td></td>
+                <td>Bob</td>
+                <td>
+                    <a href="{{ path('sortie_show', {'id': sortie.id}) }}">Afficher</a>
+                    {% if sortie.organisateur.id == app.user.id %}
+                        <a href="{{ path('sortie_update', {'id':sortie.id}) }}"> - Modifier</a>
+                        <form method="POST" action="{{ path("sortie_remove", {'id' : sortie.id }) }}"
+                              onsubmit="return confirm('Confirmation de la suppression ?');">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <input type="hidden" name="_token" value="{{ csrf_token('remove'~sortie.id) }}">
+                            <button type="submit">- Supprimer</button>
+                        </form>
+                    {% endif %}
+                </td>
 
 
-
-                </tr>
-            {% endfor %}
+            </tr>
+        {% endfor %}
         </tbody>
     </table>
 
 
     <div>
-        <a href="{{ path('sortie_add') }}" ><button type="button">Créer une sortie</button></a>
+        <a href="{{ path('sortie_add') }}">
+            <button type="button">Créer une sortie</button>
+        </a>
     </div>
 {% endblock %}
 
