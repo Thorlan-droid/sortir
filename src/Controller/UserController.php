@@ -7,7 +7,9 @@ use App\Form\ModifierUtilisateurType;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\{Request, Response};
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[Route('/user', name: 'user_')]
 class UserController extends AbstractController
@@ -39,25 +41,66 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/update', name: 'update')]
-    public function updateProfile(Request $request, UserRepository $userRepository): Response
-    {
-        $user = new User();
+//    #[Route('/update', name: 'update')]
+//    public function updateProfile(Request $request, UserRepository $userRepository): Response
+//    {
+//        $user = new User();
+//
+//        $userForm = $this->createForm(ModifierUtilisateurType::class, $user);
+//
+//        if ($request->isMethod('POST')) {
+//            $userForm->handleRequest($request);
+//
+//            if ($userForm->isSubmitted() && $userForm->isValid()) {
+//
+//
+//
+//                $userRepository->save($user, true);
+//
+//                $this->addFlash('success', 'Ton profil a été mis à jour !');
+//
+//                return $this->redirectToRoute('sortie_list');
+//            }
+//        }
+//
+//        return $this->render('user/profil.html.twig', [
+//            'userForm' => $userForm->createView(),
+//            'user' => $user,
+//        ]);
+//
+//    }
 
+
+    #[Route('/update', name: 'update')]
+    public function updateProfile(Request $request, UserRepository $userRepository, UserInterface $user): Response
+    {
 
         $userForm = $this->createForm(ModifierUtilisateurType::class, $user);
 
-        if($userForm->isSubmitted() && $userForm->isValid()) {
+        if ($request->isMethod('POST')) {
+            $userForm->handleRequest($request);
 
-            $userRepository->save($user, true);
+            if ($userForm->isSubmitted() && $userForm->isValid()) {
 
-            $this->addFlash("success", "Ton profil à été mis a jour !");
+//                $user->setPassword(
+//                    $userPasswordHasher->hashPassword(
+//                        $user,
+//                        $userForm->get('plainPassword')->getData()
+//                    )
+//                );
 
-            return $this->redirectToRoute("sortie_list");
+                $userRepository->save($user, true);
+
+                $this->addFlash('success', 'Ton profil a été mis à jour !');
+
+                return $this->redirectToRoute('sortie_list');
+            }
         }
-            return $this->render('user/profil.html.twig', [
-                'userForm' => $userForm->createView()
-            ]);
+
+        return $this->render('user/profil.html.twig', [
+            'userForm' => $userForm->createView(),
+            'user' => $user,
+        ]);
 
     }
 
