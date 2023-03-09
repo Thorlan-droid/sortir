@@ -23,7 +23,7 @@ security:
                 # where to redirect after logout
                 target: app_login
             remember_me :
-                secret: '%kernel.secret%'
+                secret: '%kernel.secret%' # required
                 #lifetime: 604800
                 always_remember_me: true
 
