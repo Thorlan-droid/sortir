@@ -4,6 +4,7 @@
     <h2>Mon Profil</h2>
 
     {{ form_start(userForm) }}
+    {{ form_row(userForm.username) }}
     {{ form_widget(userForm) }}
     <button>Enregistrer les modifications</button>
     {{ form_end(userForm) }}
