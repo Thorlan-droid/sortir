@@ -62,7 +62,7 @@ class AppFixtures extends Fixture
             $user = new User();
 
             $user
-                ->setRoles(['ROLE_USER', 'ROLE_ADMIN'])
+                ->setRoles((['ROLE_USER']))
                 ->setUsername($this->faker->userName)
                 ->setNom($this->faker->lastName)
                 ->setPrenom($this->faker->firstName)
