@@ -5,7 +5,7 @@
 {% block body %}
     <div class="infosAccueil">
         <h4>Date du jour : {{ "now"|date("d/m/Y") }} </h4>
-        <h4>Participant : </h4>
+        <h4>Participant : {% if app.user %} {{ app.user.userIdentifier | capitalize }} {% endif %}</h4>
     </div>
 
     <h3>Filtrer les sorties</h3>
@@ -95,9 +95,7 @@
                     <td>Ouvert</td>
                     <td></td>
                     <td>Bob</td>
-                    <td>        <a href="{{ path('sortie_show', {'id': sortie.id}) }}">test</a>
-                    </td>
-
+                    <td><a href="{{ path('sortie_show', {'id': sortie.id}) }}">Afficher</a></td>
                 </tr>
             {% endfor %}
         </tbody>

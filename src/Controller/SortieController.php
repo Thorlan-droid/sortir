@@ -130,7 +130,7 @@ class SortieController extends AbstractController
 
             $sortieRepository->save($sortie, true);
             $this->addFlash("success", "Sortie ajoutée !");
-
+            return $this->redirectToRoute("sortie_list");
 
         }
         return $this->render('sortie/add.html.twig', [
