@@ -95,7 +95,20 @@
                     <td>Ouvert</td>
                     <td></td>
                     <td>Bob</td>
-                    <td><a href="{{ path('sortie_show', {'id': sortie.id}) }}">Afficher</a></td>
+                    <td>
+                        <a href="{{ path('sortie_show', {'id': sortie.id}) }}">Afficher</a>
+                        {% if sortie.organisateur.id == app.user.id %}
+                            <a href="{{ path('sortie_update', {'id':sortie.id}) }}"> - Modifier</a>
+                            <form  method="POST" action="{{ path("sortie_remove", {'id' : sortie.id }) }}" onsubmit="return confirm('Confirmation de la suppression ?');">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <input type="hidden" name="_token" value="{{ csrf_token('remove'~sortie.id) }}">
+                                <button  type="submit">- Supprimer</button>
+                            </form>
+                        {% endif %}
+                    </td>
+
+
+
                 </tr>
             {% endfor %}
         </tbody>
