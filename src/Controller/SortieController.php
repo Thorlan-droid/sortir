@@ -107,6 +107,7 @@ class SortieController extends AbstractController
     public function add(
         SortieRepository $sortieRepository,
         EtatRepository $etatRepository,
+        LieuController $lieuController,
         Request          $request,
     ): Response
     {

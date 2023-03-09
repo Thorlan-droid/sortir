@@ -1,10 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-
-{% endblock %}
-
 {% block title %}
-
+    Modifier une sortie
 {% endblock %}
+
+{% block body %}
+    {% embed 'view/form/sortieForm.html.twig' with {'sortieForm' : sortieUpdateForm} %}
+        {% block formTitle %} Modifier une sortie {% endblock %}
+        {% block buttonLabel %} Modifier {% endblock %}
+    {% endembed %}
+{% endblock %}
+
+
 

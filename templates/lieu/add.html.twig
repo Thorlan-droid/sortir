@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    {{ parent() }} | Ajouter un lieu
+    Ajouter un lieu
 {% endblock %}
 
 {% block body %}
@@ -15,8 +15,8 @@
     </div>
 
     {{ form_rest(lieuForm) }}
-    <a class="link_button" href="{{ path('sortie_add')}}"
-       onclick="return confirm('Voulez vous ajouter ce lieu ?')">Ajouter</a>
+    <button onclick="return confirm('Voulez vous ajouter ce lieu ?')">Ajouter</button>
+    <button type="reset" onclick=>Retour</button>
     {{ form_end(lieuForm) }}
 
 {% endblock %}
