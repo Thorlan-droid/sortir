@@ -64,7 +64,7 @@ class SortieController extends AbstractController
 //        dd($sortieFiltre);
         //$sortie = $sortieRepository->findAll();
         return $this->render('sortie/list.html.twig', [
-            'sortieFiltre'=>$sortieFiltre, 'filtre' => $filtreForm->createView(),
+            'sortieFiltre' => $sortieFiltre, 'filtre' => $filtreForm->createView(),
             'sorties' => $sorties,
         ]);
     }
@@ -80,7 +80,8 @@ class SortieController extends AbstractController
 //    }
 
     #[Route('/recherche', name: 'recherche')]
-    public function rechercheParFiltre(): Response {
+    public function rechercheParFiltre(): Response
+    {
         $filtres = new ModelFiltre();
         $filtreForm = $this->createForm(FiltreType::class, $filtres);
         $request = null;
@@ -90,7 +91,7 @@ class SortieController extends AbstractController
         $sortieFiltre = $sortieRepository->findFiltered($filtres);
 
         return $this->render('sortie/list.html.twig', [
-            'sortieFiltre'=>$sortieFiltre, 'filtre' => $filtreForm->createView()
+            'sortieFiltre' => $sortieFiltre, 'filtre' => $filtreForm->createView()
         ]);
     }
 
@@ -144,18 +145,23 @@ class SortieController extends AbstractController
     }
 
     #[Route('/update/{id}', name: 'update', requirements: ['id' => '\d+'])]
-    public function update(int $id, SortieRepository $sortieRepository, EtatRepository $etatRepository, Request $request): Response
+    public function update(int $id, SortieRepository $sortieRepository, EtatRepository $etatRepository, UserRepository $userRepository, Request $request): Response
     {
         $sortie = $sortieRepository->find($id);
 
-        if (!$sortie) {
-            throw $this->createNotFoundException('Nous n\'avons pas trouvé votre sortie');
-        }
         $sortieForm = $this->createForm(SortieType::class, $sortie);
 
         $sortieForm->handleRequest($request);
 
-        if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
+       /* if ($sortie->getOrganisateur()->getId() !== $this->getUser()->getUserIdentifier()) {
+            $this->addFlash("warning", "Vous n'êtes pas autorisé à modifier cette sortie");
+        } */
+
+        if (!$sortie) {
+            throw $this->createNotFoundException('Nous n\'avons pas trouvé votre sortie');
+        }
+
+        if ($sortieForm->isSubmitted() && $sortieForm->isValid() /*&& $sortie->getOrganisateur()->getId() !== $this->getUser()->getUserIdentifier())*/ {
 
             $campus = $this->getUser()->getCampus();
             $organisateur = $this->getUser();
@@ -172,12 +178,14 @@ class SortieController extends AbstractController
             return $this->redirectToRoute("sortie_list");
         }
 
+
         return $this->render('/sortie/update.html.twig', [
             'sortie' => $sortie,
             'sortieForm' => $sortieForm->createView()
         ]);
 
         // return $this->redirectToRoute("sortie_list");
+
     }
 
     #[Route('/remove/{id}', name: 'remove')]
@@ -203,11 +211,11 @@ class SortieController extends AbstractController
 
 
 //        if (!$sortie->getInscrits()->contains($user)) && (!$user->getSorties()->contains($sortie)) && ($sortieEtat!="Clôturée")) {
-            $sortie->addInscrit($user);
-            $user->addSorties($sortie);
-            $userRepository->save($user, true);
-            $sortieRepository->save($sortie, true);
-            $this->addFlash("succes", 'Votre êtes inscrit à cette sortie !');
+        $sortie->addInscrit($user);
+        $user->addSorties($sortie);
+        $userRepository->save($user, true);
+        $sortieRepository->save($sortie, true);
+        $this->addFlash("succes", 'Votre êtes inscrit à cette sortie !');
 //        }
 
         return $this->redirectToRoute("sortie_list");
