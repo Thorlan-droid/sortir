@@ -5,17 +5,25 @@
 {% endblock %}
 
 {% block body %}
-    <h2>Profil Utilisateur</h2>
+    <h2 class="h2perso mb-5">Profil de {{ user.username }}</h2>
 
-    <div>
-        <h2>{{ user.username }}</h2>
-        <div>Nom : {{ user.nom }}</div>
-        <div>Prenom : {{ user.prenom }}</div>
-        <div>Email : {{ user.email }}</div>
-        <div>Telephone : {{ user.telephone }}</div>
-        <div>Campus : {{ user.campus.nom }}</div>
-
-
+    <div class="container detailsProfil">
+        <div class="row">
+            <div class="col-auto fw-bold">
+                <div>Nom :</div>
+                <div>Prenom :</div>
+                <div>Email :</div>
+                <div>Telephone :</div>
+                <div>Campus :</div>
+            </div>
+            <div class="col-auto">
+                <div>{{ user.nom }}</div>
+                <div>{{ user.prenom }}</div>
+                <div>{{ user.email }}</div>
+                <div>{{ user.telephone }}</div>
+                <div>{{ user.campus.nom }}</div>
+            </div>
+        </div>
     </div>
 {% endblock %}
 

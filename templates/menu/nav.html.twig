@@ -1,12 +1,11 @@
-<nav>
-    <ul>
-        {% if is_granted("ROLE_ADMIN") %}
-            {#  <li><a href="{{ path('admin_villes') }}">Villes</a></li> #}
-            {#  <li><a href="{{ path('admin_campus') }}">Campus</a></li> #}
-        {% endif %}
-        <li><a href="{{ path('sortie_list') }}">Accueil</a></li>
-        <li><a href="{{ path('user_list') }}">Inscrits</a></li>
-        <li><a href="{{ path('user_update') }}">Mon profil</a></li>
-        <li><a href="{{ path('app_logout') }}">Se déconnecter</a></li>
-    </ul>
-</nav>
+
+        <a href="{{ path('sortie_list') }}" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+            <img style="height: 40px" src="{{ asset('img/logo.png') }}" alt="Accueil"></a>
+        </a>
+
+        <ul class="nav nav-pills">
+            <li class="nav-item"><a href="{{ path('sortie_list') }}" class="nav-link" aria-current="page">Accueil</a></li>
+            <li class="nav-item"><a href="{{ path('user_list') }}" class="nav-link">Inscrits</a></li>
+            <li class="nav-item"><a href="{{ path('user_update') }}" class="nav-link">Mon profil</a></li>
+            <li class="nav-item"><a href="{{ path('app_logout') }}" class="nav-link">Se déconnecter</a></li>
+        </ul>

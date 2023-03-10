@@ -7,6 +7,7 @@
 {% block body %}
     <h1>Modifier une sortie</h1>
 
+
     <div class="modifierSortie">
         {{ form_start(sortieForm) }}
         {{ form_label(sortieForm.nom) }}
@@ -15,7 +16,7 @@
     </div>
 
     {{ form_rest(sortieForm) }}
-    <button>Enregistrer</button>
+    <button class="btn btn-success">Enregistrer</button>
 
     {{ form_end(sortieForm) }}
     <button>Publier la sortie</button>

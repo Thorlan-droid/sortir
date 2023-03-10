@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Créer une sortie</h1>
+    <h2 class="h2perso mb-5">Créer une sortie</h2>
 
     <div class="creerSortie">
         {{ form_start(sortieForm) }}
@@ -20,7 +20,7 @@
     <a class="link_button" href="{{ path('lieu_add') }}">Ajouter</a>
 
     {{ form_rest(sortieForm) }}
-    <button>Enregistrer</button>
+    <button class="btn btn-success">Enregistrer</button>
 
     {{ form_end(sortieForm) }}
 

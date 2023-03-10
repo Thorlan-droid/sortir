@@ -5,29 +5,79 @@
 {% endblock %}
 
 {% block body %}
-    <h2>Détails de la sortie</h2>
+    <h2 class="h2perso mb-5">Détails de la sortie</h2>
 
-    <div class="AffichageSortie">
 
-        <div>Nom de la sortie {{ sortie.nom }}</div>
-        <div>Date et heure : {{ sortie.dateHeureDebut | date('Y-m-d H:i:s') }}</div>
-        <div>Date limite d'inscription : {{ sortie.dateLimiteInscription.format('d/m/Y H:i') }}</div>
-        <div>Nombre de places : {{ sortie.inscrits|length }}/{{ sortie.nbInscriptionMax }}</div>
-        <div>Durée : {{ sortie.duree | date('H:i:s') }}</div>
-        <div>Description et infos : {{ sortie.infosSortie }}</div>
-        <div>Campus : {{ sortie.campus.nom }}</div>
-        <div>Lieu : {{ sortie.lieu.nom }}</div>
-        <div>Rue : {{ sortie.lieu.rue }}</div>
-        <div>Code postal :</div>
-        <div>Clôture : {{ sortie.dateLimiteInscription | date('Y-m-d H:i:s') }}</div>
+    <div class="container">
+        <table class="table tableauSortie">
+            <tbody>
+                <tr>
+                    <th scope="row">Nom de la sortie : </th>
+                    <td>{{ sortie.nom }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Date et heure : </th>
+                    <td>{{ sortie.dateHeureDebut | date('Y-m-d H:i:s') }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Date limite d'inscription : </th>
+                    <td>{{ sortie.dateLimiteInscription.format('d/m/Y H:i') }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Nombre de places : </th>
+                    <td>{{ sortie.inscrits|length }}/{{ sortie.nbInscriptionMax }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Durée : </th>
+                    <td>{{ sortie.duree | date('H:i:s') }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Description et infos : </th>
+                    <td>{{ sortie.infosSortie }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Campus : </th>
+                    <td>{{ sortie.campus.nom }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Ville : </th>
+                    <td>Rennes</td>
+                </tr>
+                <tr>
+                    <th scope="row">Lieu : </th>
+                    <td>{{ sortie.lieu.nom }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Rue : </th>
+                    <td>{{ sortie.lieu.rue }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Code postal :</th>
+                    <td>35000</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+{#
+    <div>Nom de la sortie {{ sortie.nom }}</div>
+    <div>Date et heure : {{ sortie.dateHeureDebut | date('Y-m-d H:i:s') }}</div>
+    <div>Date limite d'inscription : {{ sortie.dateLimiteInscription.format('d/m/Y H:i') }}</div>
+    <div>Nombre de places : {{ sortie.inscrits|length }}/{{ sortie.nbInscriptionMax }}</div>
+    <div>Durée : {{ sortie.duree | date('H:i:s') }}</div>
+    <div>Description et infos : {{ sortie.infosSortie }}</div>
+    <div>Campus : {{ sortie.campus.nom }}</div>
+    <div>Lieu : {{ sortie.lieu.nom }}</div>
+    <div>Rue : {{ sortie.lieu.rue }}</div>
+    <div>Code postal :</div>
+    <div>Clôture : {{ sortie.dateLimiteInscription | date('Y-m-d H:i:s') }}</div>
 
+#}
         <section class="inscrits">
-            <h3>Liste des inscrits :</h3>
+            <h4 class="h2perso">Liste des inscrits :</h4>
             {% for inscrit in sortie.inscrits %}
                 <div>{{ user.nom }}</div>
                 <div>{{ user.ville }}</div>
             {% endfor %}
         </section>
-    </div>
-{% endblock %}
 
+{% endblock %}
