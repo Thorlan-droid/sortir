@@ -89,6 +89,7 @@ class UserController extends AbstractController
 //                    )
 //                );
 
+
                 $userRepository->save($user, true);
 
                 $this->addFlash('success', 'Ton profil a été mis à jour !');
