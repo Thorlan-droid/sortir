@@ -201,13 +201,14 @@ class SortieController extends AbstractController
         $sortieEtat = $sortie->getEtat();
         $user = $this->getUser();
 
-        if ((!$sortie->getInscrits()->contains($user)) && (!$user->getSorties()->contains($sortie)) && ($sortieEtat!="Clôturée")) {
+
+//        if (!$sortie->getInscrits()->contains($user)) && (!$user->getSorties()->contains($sortie)) && ($sortieEtat!="Clôturée")) {
             $sortie->addInscrit($user);
             $user->addSorties($sortie);
             $userRepository->save($user, true);
             $sortieRepository->save($sortie, true);
             $this->addFlash("succes", 'Votre êtes inscrit à cette sortie !');
-        }
+//        }
 
         return $this->redirectToRoute("sortie_list");
 
