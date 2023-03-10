@@ -107,7 +107,6 @@ class SortieController extends AbstractController
     public function add(
         SortieRepository $sortieRepository,
         EtatRepository   $etatRepository,
-        LieuController   $lieuController,
         Request          $request,
     ): Response
     {
@@ -190,15 +189,18 @@ class SortieController extends AbstractController
         return $this->redirectToRoute('sortie_list');
     }
 
-    #[Route('/subscribe', name: 'subscribe')]
-    public function subscribe(int $id, SortieRepository $sortieRepository)
+    #[Route('/subscribe/{id}', name: 'subscribe', requirements: ['id' => '\d+'])]
+    public function subscribe(int $id, SortieRepository $sortieRepository, UserRepository $userRepository)
     {
-
         $sortie = $sortieRepository->find($id);
-        $user = $this->getUser()->getUserIdentifier();
+        $sortieEtat = $sortie->getEtat();
+        $user = $this->getUser();
 
-        if (!$sortie->getInscrits()->contains($user)) {
+        if ((!$sortie->getInscrits()->contains($user)) && (!$user->getSorties()->contains($sortie)) && ($sortieEtat!="Clôturée")) {
             $sortie->addInscrit($user);
+            $user->addSorties($sortie);
+            $userRepository->save($user, true);
+            $sortieRepository->save($sortie, true);
             $this->addFlash("succes", 'Votre êtes inscrit à cette sortie !');
         }
 
@@ -213,7 +215,9 @@ class SortieController extends AbstractController
         $user = $this->getUser()->getUserIdentifier();
 
         if ($sortie->getInscrits()->contains($user)) {
+
             $sortie->removeInscrit($user);
+            $sortieRepository->save($sortie, true);
             $this->addFlash('warning', 'Vous êtes désinscrit de cette sortie');
         }
         return $this->redirectToRoute("sortie_list");
