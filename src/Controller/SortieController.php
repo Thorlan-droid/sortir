@@ -190,5 +190,34 @@ class SortieController extends AbstractController
         return $this->redirectToRoute('sortie_list');
     }
 
+    #[Route('/subscribe', name: 'subscribe')]
+    public function subscribe(int $id, SortieRepository $sortieRepository)
+    {
+
+        $sortie = $sortieRepository->find($id);
+        $user = $this->getUser()->getUserIdentifier();
+
+        if (!$sortie->getInscrits()->contains($user)) {
+            $sortie->addInscrit($user);
+            $this->addFlash("succes", 'Votre êtes inscrit à cette sortie !');
+        }
+
+        return $this->redirectToRoute("sortie_list");
+
+    }
+
+    #[Route('/unsubscribe', name: 'unsubscribe')]
+    public function unsubscribe(int $id, SortieRepository $sortieRepository)
+    {
+        $sortie = $sortieRepository->find($id);
+        $user = $this->getUser()->getUserIdentifier();
+
+        if ($sortie->getInscrits()->contains($user)) {
+            $sortie->removeInscrit($user);
+            $this->addFlash('warning', 'Vous êtes désinscrit de cette sortie');
+        }
+        return $this->redirectToRoute("sortie_list");
+    }
+
 }
 
