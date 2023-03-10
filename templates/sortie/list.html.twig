@@ -18,7 +18,8 @@
 
         {{ form_start(filtre) }}
         {{ form_widget(filtre) }}
-        <button>Submit</button>
+        <button type="submit" class="Accueil btn btn-dark">Rechercher</button>
+        <button type="reset" class="Accueil btn btn-dark">Effacer</button>
         {{ form_end(filtre) }}
     </div>
 
@@ -114,7 +115,7 @@
                         <td>{{ sortie.dateHeureDebut.format('d/m/Y H:i') }}</td>
                         <td>{{ sortie.dateLimiteInscription.format('d/m/Y H:i') }}</td>
                         <td>{{ sortie.inscrits|length }}/{{ sortie.nbInscriptionMax }}</td>
-                        <td>Ouvert</td>
+                        <td></td>
                         <td></td>
                         <td>{{ sortie.organisateur.nom }}</td>
                         <td>
@@ -145,7 +146,7 @@
 
         <div>
             <a href="{{ path('sortie_add') }}">
-                <button class="btnAccueil btn btn-success" type="button">Créer une sortie</button>
+                <button class="Accueil btn btn-dark" type="button">Créer une sortie</button>
             </a>
         </div>
 
@@ -153,7 +154,3 @@
 
 
 {% endblock %}
-
-
-
-

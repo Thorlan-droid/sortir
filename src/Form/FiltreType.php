@@ -22,10 +22,11 @@ class FiltreType extends AbstractType
                 'required' => false,
                 'class'=> Campus::class,
                 'choice_label' => 'nom'
+                'attr' => ['class' => 'A'
             ])
             ->add('nom',SearchType::class,[
                 'required' => false,
-                'label'=> 'Le nom de la sortie contient : ',
+                'label'=> 'Le nom contient : ',
                 'attr' => [ 'placeholder'=> 'Recherche'
                 ]
             ])
