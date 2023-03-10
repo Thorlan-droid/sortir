@@ -3,6 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Campus;
+use App\Entity\Etat;
+use App\Form\FiltreType;
+use App\Form\Recherche\ModelFiltre;
 use App\Form\SortieType;
 use App\Repository\EtatRepository;
 use App\Repository\UserRepository;
@@ -12,6 +15,7 @@ use App\Repository\SortieRepository;
 use App\Entity\Sortie;
 use App\Utils\ChangerEtat;
 use ContainerAOlQoqJ\getCampusRepositoryService;
+use Doctrine\ORM\EntityManagerInterface;
 use http\Client\Curl\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,74 +25,75 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/sortie', name: 'sortie_')]
 class SortieController extends AbstractController
 {
+    private $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
     #[Route('', name: 'list')]
     #[Route('/list', name: 'list')]
-    public function list(SortieRepository $sortieRepository): Response
+    public function profile(SortieRepository $sortieRepository, EntityManagerInterface $entityManager, Request $request): Response
     {
-        $sorties = $sortieRepository->findAll();
+
+        $date = new \DateTime();
+        $date->sub(new \DateInterval('P1M')); // soustraire 1 mois
+
+        $sorties = $sortieRepository->findOldSorties($date);
+
+        foreach ($sorties as $sortie) {
+            $etatHistorise = $entityManager->getRepository(Etat::class)->findOneBy(['libelle' => 'Historisée']);
+            if (!$etatHistorise) {
+                $etatHistorise = new Etat();
+                $etatHistorise->setLibelle('Historisée');
+                $entityManager->persist($etatHistorise);
+            }
+
+            $sortie->setEtat($etatHistorise);
+            $entityManager->flush();
+        }
+
+
+        $filtres = new ModelFiltre();
+        $filtreForm = $this->createForm(FiltreType::class, $filtres);
+        $filtreForm->handleRequest($request);
+
+        $sortieFiltre = $sortieRepository->findFiltered($filtres);
+
+//        dd($sortieFiltre);
+        //$sortie = $sortieRepository->findAll();
         return $this->render('sortie/list.html.twig', [
-            'sorties' => $sorties
+            'sortieFiltre'=>$sortieFiltre, 'filtre' => $filtreForm->createView(),
+            'sorties' => $sorties,
         ]);
     }
+
+
+
+//    public function list(SortieRepository $sortieRepository): Response
+//    {
+//        $sorties = $sortieRepository->findAll();
+//        return $this->render('sortie/list.html.twig', [
+//            'sorties' => $sorties
+//        ]);
+//    }
 
     #[Route('/recherche', name: 'recherche')]
-    public function rechercheParFiltre(
-        CampusRepository $campusRepository,
-        SortieRepository $sortieRepository,
-        ChangerEtat      $changerEtat,
+    public function rechercheParFiltre(): Response {
+        $filtres = new ModelFiltre();
+        $filtreForm = $this->createForm(FiltreType::class, $filtres);
+        $request = null;
+        $filtreForm->handleRequest($request);
 
-    ): Response
-
-    {
-
-        $choixCampus = filter_input(INPUT_POST, 'Campus-select', FILTER_SANITIZE_STRING);
-
-        $choixRecherche = filter_input(INPUT_POST, 'rechercher', FILTER_SANITIZE_STRING);
-
-        $choixDateDebut = filter_input(INPUT_POST, 'debut-sortie', FILTER_SANITIZE_STRING);
-
-        $choixDateFin = filter_input(INPUT_POST, 'fin-sortie', FILTER_SANITIZE_STRING);
-
-        $choixOrganisateur = filter_input(INPUT_POST, 'organisateur', FILTER_VALIDATE_INT);
-
-        $choixInscrit = filter_input(INPUT_POST, 'inscrit', FILTER_VALIDATE_INT);
-
-        $choixPasInscrit = filter_input(INPUT_POST, 'pasInscrit', FILTER_VALIDATE_INT);
-
-        $choixPassee = filter_input(INPUT_POST, 'passee', FILTER_SANITIZE_STRING);
-
-
-        if ($choixCampus != 'Tous') {
-            $choixCampus = $campusRepository->findOneBy(['nom' => $choixCampus]);
-            $choixCampus = $choixCampus->getId();
-        } else {
-            $choixCampus = -1;
-        }
-        if ((($choixDateDebut != null) and ($choixDateFin == null)) or (($choixDateFin != null) and $choixDateDebut == null)) {
-            $this->addFlash('error', 'Veuillez sélectionner les deux dates');
-            $sorties = $sortieRepository->findAll();
-
-        } else {
-            $sorties = $sortieRepository->selectSortiesAvecFiltres($choixCampus, $choixRecherche, $choixDateDebut, $choixDateFin,
-                $choixOrganisateur, $choixInscrit, $choixPasInscrit, $choixPassee);
-        }
-
-        $changerEtat->verifierEtat();
-        $campus = $campusRepository->findAll();
+        $sortieRepository = null;
+        $sortieFiltre = $sortieRepository->findFiltered($filtres);
 
         return $this->render('sortie/list.html.twig', [
-            "sortie" => $sorties,
-            "campus" => $campus,
-            "choixCampus" => $choixCampus,
-            "choixRecherche" => $choixRecherche,
-            "choixDateDebut" => $choixDateDebut,
-            "choixDateFin" => $choixDateFin,
-            "choixOrganisateur" => $choixOrganisateur,
-            'choixInscrit' => $choixInscrit,
-            'choixPasInscrit' => $choixPasInscrit,
-            'choixPassee' => $choixPassee,
+            'sortieFiltre'=>$sortieFiltre, 'filtre' => $filtreForm->createView()
         ]);
     }
+
 
     #[Route('/{id}', name: 'show', requirements: ['id' => '\d+'])]
     public function show(int $id, SortieRepository $sortieRepository): Response

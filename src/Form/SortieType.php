@@ -29,6 +29,20 @@ class SortieType extends AbstractType
             ->add('nom', TextType::class, [
                 'label' => 'Nom de la sortie'
             ])
+            ->add('campus', EntityType::class, [
+                'label'=> 'campus : ',
+                'class' => Campus::class,
+                'choice_label' => 'nom'
+            ])
+            ->add('lieu', EntityType::class,[
+                'class'=> Lieu::class,
+                'choice_label' => 'nom',
+                'label' => 'Lieu',
+                'query_builder' => function(LieuRepository $lieuRepository) {
+                    return $lieuRepository
+                        ->createQueryBuilder("l")->addOrderBy("l.nom");
+                }
+            ])
             ->add('dateHeureDebut', DateTimeType::class, [
                 'label' => 'Date et heure de la sortie',
                 'html5' => true,
@@ -40,21 +54,13 @@ class SortieType extends AbstractType
                 'html5' => true,
                 'widget' => 'single_text'
             ])
-            ->add('infosSortie', TextareaType::class, [
-                'label' => 'Description et infos'
-            ])
             ->add('nbInscriptionMax', TextType::class, [
                 'label' => 'Nombre de places'
             ])
-            ->add('lieu', EntityType::class,[
-                'class'=> Lieu::class,
-                'choice_label' => 'nom',
-                'label' => 'Lieu',
-                'query_builder' => function(LieuRepository $lieuRepository) {
-                    return $lieuRepository
-                        ->createQueryBuilder("l")->addOrderBy("l.nom");
-                }
+            ->add('infosSortie', TextareaType::class, [
+                'label' => 'Description et infos'
             ]);
+
             /*->add('campus', EntityType::class, [
                 'class' => User::class,
                 'choice_label' => 'campus',
