@@ -161,7 +161,7 @@ class SortieController extends AbstractController
             throw $this->createNotFoundException('Nous n\'avons pas trouvé votre sortie');
         }
 
-        if ($sortieForm->isSubmitted() && $sortieForm->isValid() /*&& $sortie->getOrganisateur()->getId() !== $this->getUser()->getUserIdentifier())*/ {
+        if ($sortieForm->isSubmitted() && $sortieForm->isValid() )/*&& $sortie->getOrganisateur()->getId() !== $this->getUser()->getUserIdentifier())*/ {
 
             $campus = $this->getUser()->getCampus();
             $organisateur = $this->getUser();
