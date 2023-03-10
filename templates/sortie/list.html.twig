@@ -89,7 +89,7 @@
                     <th scope="col">Nom de la sortie</th>
                     <th scope="col">Date de la sortie</th>
                     <th scope="col">Clôture</th>
-                    <th scope="col">Inscrits/places</th>
+                    <th scope="col">Places</th>
                     <th scope="col">Etat</th>
                     <th scope="col">Inscrit</th>
                     <th scope="col">Organisateur</th>
@@ -106,7 +106,7 @@
                         <td>Ouvert</td>
                         <td></td>
                         <td>{{ sortie.organisateur.nom }}</td>
-                        <a>
+                        <td>
                             <a href="{{ path('sortie_show', {'id': sortie.id}) }}"><button class="btnTableau btn btn-primary">Afficher</button></a>
                             {% if sortie.organisateur.id == app.user.id %}
                                 <a href="{{ path('sortie_update', {'id':sortie.id}) }}"><button class="btnTableau warning btn btn-warning">Modifier</button></a>

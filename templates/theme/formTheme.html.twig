@@ -1,0 +1,16 @@
+{% block form_row %}
+    <div class="filtreLabel">
+        {{ form_label(form) }}
+    </div>
+    <div class="filtreLabel">
+        {{ form_imput(form) }}
+    </div>
+    <div>
+        <div class="error">
+            {{ form_errors(form) }}
+        </div>
+        <div>
+            {{ form_widget(form) }}
+        </div>
+    </div>
+{% endblock %}
