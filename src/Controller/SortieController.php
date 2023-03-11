@@ -153,15 +153,15 @@ class SortieController extends AbstractController
 
         $sortieForm->handleRequest($request);
 
-       /* if ($sortie->getOrganisateur()->getId() !== $this->getUser()->getUserIdentifier()) {
-            $this->addFlash("warning", "Vous n'êtes pas autorisé à modifier cette sortie");
-        } */
+        /* if ($sortie->getOrganisateur()->getId() !== $this->getUser()->getUserIdentifier()) {
+             $this->addFlash("warning", "Vous n'êtes pas autorisé à modifier cette sortie");
+         } */
 
         if (!$sortie) {
             throw $this->createNotFoundException('Nous n\'avons pas trouvé votre sortie');
         }
 
-        if ($sortieForm->isSubmitted() && $sortieForm->isValid() )/*&& $sortie->getOrganisateur()->getId() !== $this->getUser()->getUserIdentifier())*/ {
+        if ($sortieForm->isSubmitted() && $sortieForm->isValid())/*&& $sortie->getOrganisateur()->getId() !== $this->getUser()->getUserIdentifier())*/ {
 
             $campus = $this->getUser()->getCampus();
             $organisateur = $this->getUser();
@@ -206,17 +206,15 @@ class SortieController extends AbstractController
     public function subscribe(int $id, SortieRepository $sortieRepository, UserRepository $userRepository)
     {
         $sortie = $sortieRepository->find($id);
-        $sortieEtat = $sortie->getEtat();
+      // $sortieEtat = $sortie->getEtat();
         $user = $this->getUser();
 
-
-//        if (!$sortie->getInscrits()->contains($user)) && (!$user->getSorties()->contains($sortie)) && ($sortieEtat!="Clôturée")) {
+       // if (!$sortie->getInscrits()->contains($user)) && (!$user->getSorties()->contains($sortie)) && ($sortieEtat!="Clôturée")) {
         $sortie->addInscrit($user);
-        $user->addSorties($sortie);
-        $userRepository->save($user, true);
         $sortieRepository->save($sortie, true);
+
         $this->addFlash("succes", 'Votre êtes inscrit à cette sortie !');
-//        }
+        //}
 
         return $this->redirectToRoute("sortie_list");
 

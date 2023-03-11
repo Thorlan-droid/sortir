@@ -130,13 +130,13 @@
                             {% endif %}
 
                         {% if sortie.inscrits.contains(app.user) and app.user.sorties.contains(sortie) and sortie.etat!='Clôturée' %}
-                            <button href="{{ path('sortie_unsubscribe', {'id': sortie.id}) }}"
+                            <a href="{{ path('sortie_unsubscribe', {'id': sortie.id}) }}"
                                     class="btnTableau btn btn-primary">Se désinscrire
-                            </button>
+                            </a>
                         {% else %}
-                            <button href="{{ path('sortie_subscribe', {'id': sortie.id}) }}"
+                            <a href="{{ path('sortie_subscribe', {'id': sortie.id}) }}"
                                     class="btnTableau btn btn-primary">S'inscrire
-                            </button> {% endif %}
+                            </a> {% endif %}
 
                     </td>
                 </tr>
