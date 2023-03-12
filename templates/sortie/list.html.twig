@@ -117,7 +117,11 @@
                     <td>{{ sortie.dateLimiteInscription.format('d/m/Y H:i') }}</td>
                     <td>{{ sortie.inscrits|length }}/{{ sortie.nbInscriptionMax }}</td>
                     <td></td>
-                    <td></td>
+                    <td>
+                        {% if sortie.inscrits.contains(app.user) and app.user.sorties.contains(sortie) and sortie.etat!='Clôturée' %}
+                            X
+                        {% endif %}
+                    </td>
                     <td>{{ sortie.organisateur.nom }}</td>
                     <td>
                         <a href="{{ path('sortie_show', {'id': sortie.id}) }}">

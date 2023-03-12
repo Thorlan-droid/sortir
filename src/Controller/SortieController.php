@@ -213,7 +213,7 @@ class SortieController extends AbstractController
         $sortie->addInscrit($user);
         $sortieRepository->save($sortie, true);
 
-        $this->addFlash("succes", 'Votre êtes inscrit à cette sortie !');
+        $this->addFlash("success", 'Votre êtes inscrit à cette sortie !');
         //}
 
         return $this->redirectToRoute("sortie_list");
