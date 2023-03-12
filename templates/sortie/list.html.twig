@@ -116,7 +116,9 @@
                     <td>{{ sortie.dateHeureDebut.format('d/m/Y H:i') }}</td>
                     <td>{{ sortie.dateLimiteInscription.format('d/m/Y H:i') }}</td>
                     <td>{{ sortie.inscrits|length }}/{{ sortie.nbInscriptionMax }}</td>
-                    <td></td>
+                    <td>
+                        {{ sortie.etat.libelle }}
+                    </td>
                     <td>
                         {% if sortie.inscrits.contains(app.user) and app.user.sorties.contains(sortie) and sortie.etat!='Clôturée' %}
                             X

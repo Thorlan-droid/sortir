@@ -206,15 +206,15 @@ class SortieController extends AbstractController
     public function subscribe(int $id, SortieRepository $sortieRepository)
     {
         $sortie = $sortieRepository->find($id);
-      // $sortieEtat = $sortie->getEtat();
+        $sortieEtat = $sortie->getEtat();
         $user = $this->getUser();
 
-       // if (!$sortie->getInscrits()->contains($user)) && (!$user->getSorties()->contains($sortie)) && ($sortieEtat!="Clôturée")) {
-        $sortie->addInscrit($user);
-        $sortieRepository->save($sortie, true);
+        if ((!$sortie->getInscrits()->contains($user)) && (!$user->getSorties()->contains($sortie)) && ($sortieEtat != "Clôturée")) {
+            $sortie->addInscrit($user);
+            $sortieRepository->save($sortie, true);
 
-        $this->addFlash("success", 'Votre êtes inscrit à cette sortie !');
-        //}
+            $this->addFlash("success", 'Votre êtes inscrit à cette sortie !');
+        }
 
         return $this->redirectToRoute("sortie_list");
 
@@ -226,11 +226,11 @@ class SortieController extends AbstractController
         $sortie = $sortieRepository->find($id);
         $user = $this->getUser();
 
-     //   if ($sortie->getInscrits()->contains($user)) {
+        if ($sortie->getInscrits()->contains($user)) {
             $sortie->removeInscrit($user);
             $sortieRepository->save($sortie, true);
             $this->addFlash('warning', 'Vous êtes désinscrit de cette sortie');
-     //   }
+        }
         return $this->redirectToRoute("sortie_list");
     }
 
