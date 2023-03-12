@@ -203,7 +203,7 @@ class SortieController extends AbstractController
     }
 
     #[Route('/subscribe/{id}', name: 'subscribe', requirements: ['id' => '\d+'])]
-    public function subscribe(int $id, SortieRepository $sortieRepository, UserRepository $userRepository)
+    public function subscribe(int $id, SortieRepository $sortieRepository)
     {
         $sortie = $sortieRepository->find($id);
       // $sortieEtat = $sortie->getEtat();
@@ -220,18 +220,17 @@ class SortieController extends AbstractController
 
     }
 
-    #[Route('/unsubscribe', name: 'unsubscribe')]
+    #[Route('/unsubscribe/{id}', name: 'unsubscribe', requirements: ['id' => '\d+'])]
     public function unsubscribe(int $id, SortieRepository $sortieRepository)
     {
         $sortie = $sortieRepository->find($id);
-        $user = $this->getUser()->getUserIdentifier();
+        $user = $this->getUser();
 
-        if ($sortie->getInscrits()->contains($user)) {
-
+     //   if ($sortie->getInscrits()->contains($user)) {
             $sortie->removeInscrit($user);
             $sortieRepository->save($sortie, true);
             $this->addFlash('warning', 'Vous êtes désinscrit de cette sortie');
-        }
+     //   }
         return $this->redirectToRoute("sortie_list");
     }
 
