@@ -6,6 +6,7 @@
 parameters:
     upload_avatar: 'img/avatar'
 
+
 services:
     # default configuration for services in *this* file
     _defaults:

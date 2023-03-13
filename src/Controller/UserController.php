@@ -92,6 +92,7 @@ class UserController extends AbstractController
 
                 if ($avatarFile) {
 
+
                     $newFilename = uniqid().'.'.$avatarFile->guessExtension();
 
                     try {

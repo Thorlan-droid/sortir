@@ -33,8 +33,7 @@ class ModifierUtilisateurType extends AbstractType
             ->add('prenom')
             ->add('telephone')
             ->add('email')
-//            ->add('actif', CheckboxType::class)
-//            ->add('sorties')
+
             ->add('campus', EntityType::class, [
                 'class' => Campus::class,
                 'choice_label' => 'nom',
