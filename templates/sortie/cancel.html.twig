@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Annuler une sortie
+{% endblock %}
+
+{% block body %}
+    <h2 class="h2perso mb-5">Annuler une sortie</h2>
+
+    <div class="AnnulerSortie">
+        {{ form_start(cancelSortieForm) }}
+
+
+    </div>
+
+
+    {{ form_rest(cancelSortieForm) }}
+    <a href="{{ path('sortie_list') }}"><button class="btn btn-success">Confirmer</button></a>
+
+    {{ form_end(cancelSortieForm) }}
+
+{% endblock %}
