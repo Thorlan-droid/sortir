@@ -25,14 +25,15 @@ class ModifierUtilisateurType extends AbstractType
                 //'attr' => ['class' => 'form-control']
             ])
 //            ->add('roles')
-            ->add('password', PasswordType::class, [
-                'label' => 'Mot de passe'
+            ->add('plainPassword', PasswordType::class, [
+                'label' => 'Mot de passe',
+                'mapped' => false
             ])
             ->add('nom')
             ->add('prenom')
             ->add('telephone')
             ->add('email')
-            ->add('actif', CheckboxType::class)
+//            ->add('actif', CheckboxType::class)
 //            ->add('sorties')
             ->add('campus', EntityType::class, [
                 'class' => Campus::class,
@@ -46,6 +47,7 @@ class ModifierUtilisateurType extends AbstractType
             ])
             ->add('avatar', FileType::class, [
                 'mapped' => false,
+                'required' => false,
                 'constraints' => [
                     new Image([
                             "maxSize" => '5000k',

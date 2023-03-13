@@ -3,8 +3,8 @@
 namespace App\DataFixtures;
 
 use App\Entity\Campus;
-use App\Entity\Serie;
 use App\Entity\User;
+use App\Entity\Ville;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -31,7 +31,26 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $this->ajoutCampus(3);
+        $this->ajoutVille(3);
         $this->ajoutUtilisateur(10);
+
+    }
+
+
+    private function ajoutVille(int $number){
+
+        $ville = new Ville();
+
+        for ($i = 0; $i < $number; $i++) {
+
+            $ville->setNom($this->faker->city);
+            $ville->setCodePostal($this->faker->postcode);
+
+
+            $this->entityManager->persist($ville);
+        }
+
+        $this->entityManager->flush();
 
     }
 

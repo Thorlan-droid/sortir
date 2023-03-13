@@ -190,12 +190,12 @@ class SortieController extends AbstractController
         return $this->redirectToRoute('sortie_list');
     }
 
-    #[Route('/subscribe', name: 'subscribe')]
+    #[Route('/subscribe/{id}', name: 'subscribe')]
     public function subscribe(int $id, SortieRepository $sortieRepository)
     {
 
         $sortie = $sortieRepository->find($id);
-        $user = $this->getUser()->getUserIdentifier();
+        $user = $this->getUser();
 
         if (!$sortie->getInscrits()->contains($user)) {
             $sortie->addInscrit($user);

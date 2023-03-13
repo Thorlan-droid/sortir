@@ -38,6 +38,10 @@ class SortieRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    public function getList(){
+
+    }
+
 
 //    /**
 //     * @return Sortie[] Returns an array of Sortie objects

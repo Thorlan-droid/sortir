@@ -44,7 +44,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $email = null;
 
     #[ORM\Column]
-    private ?bool $actif = null;
+    private ?bool $actif = true;
 
     #[ORM\ManyToMany(targetEntity: Sortie::class, inversedBy: 'inscrits')]
     private Collection $sorties;

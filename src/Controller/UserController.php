@@ -6,10 +6,11 @@ use App\Entity\User;
 use App\Form\ModifierUtilisateurType;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\{Request, Response};
+use Symfony\Component\HttpFoundation\{File\Exception\FileException, File\UploadedFile, Request, Response};
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[Route('/user', name: 'user_')]
 class UserController extends AbstractController
@@ -72,7 +73,11 @@ class UserController extends AbstractController
 
 
     #[Route('/update', name: 'update')]
-    public function updateProfile(Request $request, UserRepository $userRepository, UserInterface $user): Response
+    public function updateProfile(Request $request,
+                                  UserRepository $userRepository,
+                                  UserInterface $user,
+                                  UserPasswordHasherInterface $userPasswordHasher,
+                                  ): Response
     {
 
         $userForm = $this->createForm(ModifierUtilisateurType::class, $user);
@@ -82,12 +87,33 @@ class UserController extends AbstractController
 
             if ($userForm->isSubmitted() && $userForm->isValid()) {
 
-//                $user->setPassword(
-//                    $userPasswordHasher->hashPassword(
-//                        $user,
-//                        $userForm->get('plainPassword')->getData()
-//                    )
-//                );
+                $avatarFile = $userForm->get('avatar')->getData();
+
+
+                if ($avatarFile) {
+
+                    $newFilename = uniqid().'.'.$avatarFile->guessExtension();
+
+                    try {
+                        $avatarFile->move(
+                            $this->getParameter('upload_avatar'),
+                            $newFilename
+                        );
+                    } catch (FileException $e) {
+
+                    }
+
+                    $user->setAvatar($newFilename);
+                }
+
+
+
+                $user->setPassword(
+                    $userPasswordHasher->hashPassword(
+                        $user,
+                        $userForm->get('plainPassword')->getData()
+                    )
+                );
 
 
                 $userRepository->save($user, true);

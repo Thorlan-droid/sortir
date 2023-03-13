@@ -5,7 +5,7 @@
 {% endblock %}
 {% block body %}
     <h2 class="h2perso">Mon Profil</h2>
-
+    <img src="{{ asset('img/avatar/' ~ user.avatar) }}" alt="{{ user.username }}'s profile picture">
     {{ form_start(userForm) }}
     {{ form_row(userForm.username) }}
     {{ form_widget(userForm) }}
