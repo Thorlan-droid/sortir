@@ -13,6 +13,7 @@ use App\Repository\CampusRepository;
 use App\Repository\SortieRepository;
 
 use App\Entity\Sortie;
+use App\Repository\VilleRepository;
 use App\Utils\ChangerEtat;
 use ContainerAOlQoqJ\getCampusRepositoryService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -205,6 +206,7 @@ class SortieController extends AbstractController
     #[Route('/subscribe/{id}', name: 'subscribe', requirements: ['id' => '\d+'])]
     public function subscribe(int $id, SortieRepository $sortieRepository)
     {
+
         $sortie = $sortieRepository->find($id);
         $sortieEtat = $sortie->getEtat();
         $user = $this->getUser();

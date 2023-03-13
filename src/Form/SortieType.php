@@ -10,6 +10,7 @@ use App\Entity\User;
 use App\Entity\Ville;
 use App\Repository\LieuRepository;
 use App\Repository\SortieRepository;
+use App\Repository\VilleRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -34,15 +35,17 @@ class SortieType extends AbstractType
                 'class' => Campus::class,
                 'choice_label' => 'nom'
             ])
+
             ->add('lieu', EntityType::class,[
+                'label' => 'Lieu',
                 'class'=> Lieu::class,
                 'choice_label' => 'nom',
-                'label' => 'Lieu',
                 'query_builder' => function(LieuRepository $lieuRepository) {
                     return $lieuRepository
                         ->createQueryBuilder("l")->addOrderBy("l.nom");
                 }
             ])
+
             ->add('dateHeureDebut', DateTimeType::class, [
                 'label' => 'Date et heure de la sortie',
                 'html5' => true,
@@ -60,6 +63,8 @@ class SortieType extends AbstractType
             ->add('infosSortie', TextareaType::class, [
                 'label' => 'Description et infos'
             ]);
+
+
 
             /*->add('campus', EntityType::class, [
                 'class' => User::class,
