@@ -15,22 +15,18 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class FiltreType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options): void
-    {
-        $builder
-            ->add('campus', EntityType::class, [
-                'required' => false,
-                'class' => Campus::class,
-                'choice_label' => 'nom',
-                'attr' => ['class' => 'A'
-    ]
-    ])
-            ->add('nom', SearchType::class, [
-        'required' => false,
-        'label' => 'Le nom contient : ',
-        'attr' => ['placeholder' => 'Recherche'
-        ]
-    ])
+    public function buildForm(FormBuilderInterface $builder, array $options): void {
+    $builder
+        ->add('campus', EntityType::class, [
+            'required' => false,
+            'class' => Campus::class,
+            'choice_label' => 'nom'
+
+        ])
+        ->add('nom', SearchType::class, [
+            'required' => false,
+            'label' => 'Le nom contient : '
+        ])
         ->add('dateSortie', DateType::class, [
             'required' => false,
             'label' => 'Entre le ',
