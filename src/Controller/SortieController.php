@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Campus;
 use App\Entity\Etat;
+use App\Form\CancelSortieType;
 use App\Form\FiltreType;
 use App\Form\Recherche\ModelFiltre;
 use App\Form\SortieType;
@@ -189,13 +190,69 @@ class SortieController extends AbstractController
 
     }
 
-    #[Route('/remove/{id}', name: 'remove')]
-    public function remove(int $id, SortieRepository $sortieRepository)
+    #[Route('/cancel/{id}', name: 'cancel', requirements: ['id' => '\d+'])]
+    public function cancel(int $id,
+                           SortieRepository $sortieRepository,
+                           EtatRepository $etatRepository,
+                           UserRepository $userRepository,
+                           Request $request,
+                           EntityManagerInterface $entityManager): Response
     {
         $sortie = $sortieRepository->find($id);
 
+        $cancelSortieForm = $this->createForm(CancelSortieType::class, $sortie);
+
+        $cancelSortieForm->handleRequest($request);
+
+
+        if (!$sortie) {
+            throw $this->createNotFoundException('Nous n\'avons pas trouvé votre sortie');
+        }
+
+        if ($cancelSortieForm->isSubmitted() && $cancelSortieForm->isValid())/*&& $sortie->getOrganisateur()->getId() !== $this->getUser()->getUserIdentifier())*/ {
+
+            $campus = $this->getUser()->getCampus();
+            $organisateur = $this->getUser();
+//            $etat = $etatRepository->findOneBy(array('libelle' => 'Creee'));
+
+            $etat = $entityManager->getRepository(Etat::class)->findOneBy(['libelle' => 'Annulée']);
+//
+//
+//          $sortie->setEtat($etat);
+
+            $campus->getNom();
+            $sortie->setEtat($etat);
+            $sortie->setCampus($campus);
+
+            $sortie->setOrganisateur($organisateur);
+
+            $sortieRepository->save($sortie, true);
+
+            $this->addFlash("success", "Sortie annulée !");
+
+            return $this->redirectToRoute("sortie/list");
+        }
+
+
+        return $this->render('/sortie/cancel.html.twig', [
+            'sortie' => $sortie,
+            'cancelSortieForm' => $cancelSortieForm->createView()
+        ]);
+
+        // return $this->redirectToRoute("sortie_list");
+
+    }
+
+    #[Route('/remove/{id}', name: 'remove')]
+    public function remove(int $id, SortieRepository $sortieRepository, EntityManagerInterface $entityManager)
+    {
+        $sortie = $sortieRepository->find($id);
+
+
+
         if ($sortie) {
             $sortieRepository->remove($sortie, true);
+
             $this->addFlash("warning", 'Votre sortie a bien été supprimée');
         } else {
             throw $this->createNotFoundException('Cette sortie n\'existe pas');

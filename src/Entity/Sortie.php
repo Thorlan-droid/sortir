@@ -14,6 +14,14 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\HasLifecycleCallbacks]
 class Sortie
 {
+    const IS_CREATED = 'créée';
+    const IS_OPEN = 'ouverte';
+    const IS_CLOSED = 'cloturée';
+    const IS_ONGOING = 'en cours';
+    const IS_PASSED = 'terminée';
+    const IS_CANCELLED = 'annulée';
+
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]

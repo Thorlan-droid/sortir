@@ -115,9 +115,13 @@
                         <a href="{{ path('sortie_show', {'id': sortie.id}) }}">
                             <button class="btnTableau btn btn-primary">Afficher</button>
                         </a>
+
                         {% if sortie.organisateur.id == app.user.id %}
                             <a href="{{ path('sortie_update', {'id':sortie.id}) }}">
                                 <button class="btnTableau warning btn btn-warning">Modifier</button>
+                            </a>
+                            <a href="{{ path('sortie_cancel', {'id': sortie.id}) }}">
+                                <button class="btnTableau btn btn-primary">Annuler</button>
                             </a>
                             <form method="POST" action="{{ path("sortie_remove", {'id' : sortie.id }) }}"
                                   onsubmit="return confirm('Confirmation de la suppression ?');">
