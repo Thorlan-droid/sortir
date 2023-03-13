@@ -37,7 +37,14 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
          - { path: ^/admin, roles: ROLE_ADMIN }
-         - { path: ^/user, roles: ROLE_USER }
+         - { path: /sortie/add, roles: ROLE_USER }
+         - { path: /sortie/list, roles: ROLE_USER }
+         - { path: /user/list, roles: ROLE_USER }
+         - { path: /user/update, roles: ROLE_USER }
+         - { path: /sortie/recherche, roles: ROLE_USER }
+         - { path: /sortie/unsubscribe, roles: ROLE_USER }
+         - { path: /sortie/remove, roles: ROLE_USER }
+
 
 when@test:
     security:

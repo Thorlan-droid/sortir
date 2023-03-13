@@ -35,7 +35,7 @@ class ChangerEtat
             if ($value->getEtat() != 'Annulée' and $value->getEtat() != 'Créée') {
 
                 $dateHeureDebut = $value->getDateHeureDebut();
-                if ($value->getNbInscriptionsMax() == $value->getParticipants()->count() or $value->getDateLimiteInscription() < $now) {
+                if ($value->getNbInscriptionMax() == $value->getInscrits()->count() or $value->getDateLimiteInscription() < $now) {
                     $value->setEtat(($this->etatRepository->findOneBy(['libelle' => 'Clôturée'])));
                 } else {
                     $value->setEtat(($this->etatRepository->findOneBy(['libelle' => 'Ouverte'])));
