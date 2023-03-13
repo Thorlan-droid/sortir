@@ -115,6 +115,7 @@ class SortieController extends AbstractController
         SortieRepository $sortieRepository,
         EtatRepository   $etatRepository,
         Request          $request,
+        ChangerEtat      $changerEtat,
     ): Response
     {
         $sortie = new Sortie();
@@ -208,10 +209,12 @@ class SortieController extends AbstractController
     {
 
         $sortie = $sortieRepository->find($id);
-        $sortieEtat = $sortie->getEtat();
+        $sortieEtat = $sortie->getEtat()->getLibelle();
         $user = $this->getUser();
+        $dateActuelle = new \DateTime();
 
-        if ((!$sortie->getInscrits()->contains($user)) && (!$user->getSorties()->contains($sortie)) && ($sortieEtat != "Clôturée")) {
+        if ((!$sortie->getInscrits()->contains($user)) && (!$user->getSorties()->contains($sortie)) &&
+            ($sortieEtat = "Ouverte") && ($sortie->getDateLimiteInscription() >= $dateActuelle)) {
             $sortie->addInscrit($user);
             $sortieRepository->save($sortie, true);
 

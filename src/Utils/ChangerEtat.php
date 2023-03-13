@@ -5,12 +5,13 @@ namespace App\Utils;
 use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use http\Env\Request;
 
 class ChangerEtat
 {
-    protected $sortieRepository;
-    protected $etatRepository;
-    protected $entityManager;
+//    protected $sortieRepository;
+//    protected $etatRepository;
+//    protected $entityManager;
 
     /**
      * @param sortieRepository
@@ -25,35 +26,35 @@ class ChangerEtat
         $this->entityManager = $entityManager;
     }
 
-    public function verifierEtat(): void
+    public function verifierEtat(SortieRepository $sortieRepository, EtatRepository $etatRepository, Request $request): void
     {
         $sorties = $this->sortieRepository->findAll();
-        $now = new \DateTime();
-        $now->modify('+ 1 hour');
+        $dateActuelle = new \DateTime();
+        $dateActuelle->modify('+ 1 hour');
 
-        foreach ($sorties as $value) {
-            if ($value->getEtat() != 'Annulée' and $value->getEtat() != 'Créée') {
+        foreach ($sorties as $sortie) {
+            if ($sortie->getEtat() != 'Annulée' and $sortie->getEtat() != 'Créée') {
 
-                $dateHeureDebut = $value->getDateHeureDebut();
-                if ($value->getNbInscriptionsMax() == $value->getParticipants()->count() or $value->getDateLimiteInscription() < $now) {
-                    $value->setEtat(($this->etatRepository->findOneBy(['libelle' => 'Clôturée'])));
+                $dateHeureDebut = $sortie->getDateHeureDebut();
+                if ($sortie->getNbInscriptionMax() == $sortie->getInscrits()->count() or $sortie->getDateLimiteInscription() <= $dateActuelle) {
+                    $sortie->setEtat(($this->etatRepository->findOneBy(['libelle' => 'Clôturée'])));
                 } else {
-                    $value->setEtat(($this->etatRepository->findOneBy(['libelle' => 'Ouverte'])));
+                    $sortie->setEtat(($this->etatRepository->findOneBy(['libelle' => 'Ouverte'])));
                 }
 
-                if ($dateHeureDebut <= $now) {
-                    $value->setEtat($this->etatRepository->findOneBy(['libelle' => 'Activité en cours']));
-                    $this->entityManager->persist($value);
+                if ($dateHeureDebut <= $dateActuelle) {
+                    $sortie->setEtat($this->etatRepository->findOneBy(['libelle' => 'Activité en cours']));
+                    $this->entityManager->persist($sortie);
                     $this->entityManager->flush();
                 }
 
-                if ($dateHeureDebut->modify('+ ' . $value->getDuree() . 'minutes') <= $now) {
-                    $value->setEtat($this->etatRepository->findOneBy(['libelle' => 'Passée']));
+                if ($dateHeureDebut->modify('+ ' . $sortie->getDuree() . 'minutes') <= $dateActuelle) {
+                    $sortie->setEtat($this->etatRepository->findOneBy(['libelle' => 'Passée']));
 
                 }
-                $dateHeureDebut->modify('- ' . $value->getDuree() . 'minutes');
+                $dateHeureDebut->modify('- ' . $sortie->getDuree() . 'minutes');
 
-                $this->entityManager->persist($value);
+                $this->entityManager->persist($sortie);
                 $this->entityManager->flush();
             }
         }
