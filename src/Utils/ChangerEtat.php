@@ -2,62 +2,89 @@
 
 namespace App\Utils;
 
+use App\Entity\Sortie;
 use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use http\Env\Request;
+use DateInterval;
 
 class ChangerEtat
 {
-//    protected $sortieRepository;
-//    protected $etatRepository;
-//    protected $entityManager;
 
-    /**
-     * @param sortieRepository
-     * @param $etatRepository
-     * @param $entityManager
-     */
-
-    public function __construct(SortieRepository $sortieRepository, EtatRepository $etatRepository, EntityManagerInterface $entityManager)
+    public function __construct(private EtatRepository $etatRepository, private SortieRepository $sortieRepository)
     {
-        $this->sortieRepository = $sortieRepository;
-        $this->etatRepository = $etatRepository;
-        $this->entityManager = $entityManager;
     }
 
-    public function verifierEtat(SortieRepository $sortieRepository, EtatRepository $etatRepository, Request $request): void
+    public function verifierEtat(Sortie $sortie): Sortie
     {
-        $sorties = $this->sortieRepository->findAll();
-        $dateActuelle = new \DateTime();
-        $dateActuelle->modify('+ 1 hour');
+        $this->verif($sortie);
+
+        return $sortie;
+
+    }
+
+    public function verifierEtats(array $sorties): array
+    {
 
         foreach ($sorties as $sortie) {
-            if ($sortie->getEtat() != 'Annulée' and $sortie->getEtat() != 'Créée') {
 
-                $dateHeureDebut = $sortie->getDateHeureDebut();
-                if ($sortie->getNbInscriptionMax() == $sortie->getInscrits()->count() or $sortie->getDateLimiteInscription() <= $dateActuelle) {
-                    $sortie->setEtat(($this->etatRepository->findOneBy(['libelle' => 'Clôturée'])));
-                } else {
-                    $sortie->setEtat(($this->etatRepository->findOneBy(['libelle' => 'Ouverte'])));
-                }
+            $this->verif($sortie);
+        }
+        return $sorties;
+    }
 
-                if ($dateHeureDebut <= $dateActuelle) {
-                    $sortie->setEtat($this->etatRepository->findOneBy(['libelle' => 'Activité en cours']));
-                    $this->entityManager->persist($sortie);
-                    $this->entityManager->flush();
-                }
 
-                if ($dateHeureDebut->modify('+ ' . $sortie->getDuree() . 'minutes') <= $dateActuelle) {
-                    $sortie->setEtat($this->etatRepository->findOneBy(['libelle' => 'Passée']));
+    private function verif(Sortie $sortie)
+    {
 
-                }
-                $dateHeureDebut->modify('- ' . $sortie->getDuree() . 'minutes');
-
-                $this->entityManager->persist($sortie);
-                $this->entityManager->flush();
-            }
+        if ($sortie->getDateHeureDebut() === null) {
+            throw new \Exception('DateHeureDebut cannot be null');
         }
 
+        $now = new \DateTime('now');
+        $heureDebut = clone $sortie->getDateHeureDebut();
+        $heureDebut2 = clone $sortie->getDateHeureDebut();
+        $dateInscription = $sortie->getDateLimiteInscription();
+        $nbParticipants = $sortie->getInscrits()->count();
+        $nbInscriptionMax = $sortie->getNbInscriptionMax();
+        $dateHeureFin = date_add($heureDebut,
+            DateInterval::createFromDateString($sortie->getDuree() . 'minutes'));
+        $dateHistory = date_add($heureDebut2,
+            DateInterval::createFromDateString($sortie->getDuree() + 43200 . 'minutes'));
+
+        if ($sortie->getEtat()->getLibelle() != 'Créée' &&
+            $sortie->getEtat()->getLibelle() != 'Annulée') {
+            if ($sortie->getDateHeureDebut() > $now &&
+                $dateInscription > $now &&
+                $nbParticipants < $nbInscriptionMax) {
+                $this->setEtatSortie($sortie, 2);
+            } elseif ($sortie->getDateHeureDebut() > $now &&
+                ($dateInscription < $now ||
+                    $nbParticipants >= $nbInscriptionMax)) {
+                $this->setEtatSortie($sortie, 3);
+            } elseif ($sortie->getDateHeureDebut() < $now &&
+                $dateHeureFin > $now) {
+                $this->setEtatSortie($sortie, 4);
+            } elseif ($dateHeureFin < $now &&
+                $dateHistory > $now) {
+                $this->setEtatSortie($sortie, 5);
+            } elseif ($dateHistory < $now) {
+                $this->setEtatSortie($sortie, 7);
+            }
+        } else {
+            if ($dateHeureFin < $now &&
+                $dateHistory > $now) {
+                $this->setEtatSortie($sortie, 5);
+            } elseif ($dateHistory <= $now) {
+                $this->setEtatSortie($sortie, 7);
+            }
+        }
     }
+
+    private function setEtatSortie(Sortie $sortie, int $etatId)
+    {
+        $sortie->setEtat($this->etatRepository->find($etatId));
+        $this->sortieRepository->save($sortie, true);
+    }
+
 }

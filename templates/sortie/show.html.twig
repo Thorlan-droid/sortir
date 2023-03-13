@@ -75,8 +75,8 @@
         <section class="inscrits">
             <h4 class="h2perso">Liste des inscrits :</h4>
             {% for inscrit in sortie.inscrits %}
-                <div>{{ user.nom }}</div>
-                <div>{{ user.ville }}</div>
+                <div>{{ inscrit.nom }}</div>
+{#               <div>{{ inscrit.lieu.ville }}</div>#}
             {% endfor %}
         </section>
 
