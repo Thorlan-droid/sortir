@@ -210,14 +210,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, sortie>
+     * @return Collection<int, Sortie>
      */
     public function getSorties(): Collection
     {
         return $this->sorties;
     }
 
-    public function addSorties(sortie $sorties): self
+    public function addSorties(Sortie $sorties): self
     {
         if (!$this->sorties->contains($sorties)) {
             $this->sorties->add($sorties);
@@ -226,7 +226,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function removeSorties(sortie $sorties): self
+    public function removeSorties(Sortie $sorties): self
     {
         $this->sorties->removeElement($sorties);
 

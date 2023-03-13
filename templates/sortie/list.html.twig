@@ -5,134 +5,164 @@
 {% endblock %}
 
 {% block body %}
-    <div class="infosAccueil">
-        <p class="text-end">Date du jour : {{ "now"|date("d/m/Y") }} </p>
-        <p class="text-end">Participant : {% if app.user %} {{ app.user.userIdentifier | capitalize }} {% endif %}</p>
+
+    <div class="container">
+
+    <div class="container">
+        <div class="infosAccueil">
+            <p class="text-end">Date du jour : {{ "now"|date("d/m/Y") }} </p>
+            <p class="text-end">Participant
+                : {% if app.user %} {{ app.user.userIdentifier | capitalize }} {% endif %}</p>
+        </div>
+
+        <h3 class="mb-4">Filtrer les sorties</h3>
+
+        {{ form_start(filtre) }}
+        {{ form_widget(filtre) }}
+        <button type="submit" class="Accueil btn btn-dark">Rechercher</button>
+        <button type="reset" class="Accueil btn btn-dark">Effacer</button>
+        {{ form_end(filtre) }}
     </div>
 
-    <h3 class="mb-4" >Filtrer les sorties</h3>
+    {#    #}{# <div class="container"> #}
+    {#        <div class="infosAccueil"> #}
+    {#            <p class="text-end">Date du jour : {{ "now"|date("d/m/Y") }} </p> #}
+    {#            <p class="text-end">Participant : {% if app.user %} {{ app.user.userIdentifier | capitalize }} {% endif %}</p> #}
+    {#        </div> #}
+
+    {#        <h3 class="mb-4" >Filtrer les sorties</h3> #}
+
+    {#        <div class="row"> #}
+
+    {#            <div class="col largeurInfosAccueil"> #}
+    {#                <div> #}
+    {#                    <label class="filtreLabel" for="Campus-select">Campus :</label> #}
+    {#                    <select class="filtreSelect" name="Campus-select" id="Campus-select"> #}
+    {#                        <option value="tous">Tous les Campus</option> #}
+    {#                        {% for site in Campus %} #}
+    {#                            <option value="{{ campus.id }}" {% if campus.id == selectedCampus %}selected{% endif %}> #}
+    {#                                {{ campus.nom }} #}
+    {#                            </option> #}
+    {#                        {% endfor %} #}
+    {#                    </select> #}
+    {#                </div> #}
 
 
-    <form  method="POST">
-
-        <div class="container">
-
-            <div class="row">
-
-                <div class="col largeurInfosAccueil">
-                    <div>
-                        <label class="filtreLabel" for="Campus-select">Campus :</label>
-                        <select class="filtreSelect" name="Campus-select" id="Campus-select">
-                            <option value="tous">Tous les Campus</option>
-                            {#  {% for site in Campus %}
-                                <option value="{{ campus.id }}" {% if campus.id == selectedCampus %}selected{% endif %}>
-                                    {{ campus.name }}
-                                </option>
-                            {% endfor %} #}
-                        </select>
-                    </div>
-
-
-                    <div>
-                        <label class="filtreLabel" for="rechercher">Le nom contient : </label>
-                        <input class="filtreImput" type="text" id="rechercher" name="rechercher"
-                               placeholder="rechercher" {% if choix is defined %}
-                               value="{{ choix }}{% endif %}">
-                    </div>
-                    <div>
-                        <label class="filtreLabelDate1" for="debut">Entre </label>
-                        <input class="filtreImputDate" type="date" id="debut" name="debut-sortie" {% if choixDateDebut is defined %}
-                               value="{{ choixDateDebut }}{% endif %}">
-                        <label class="filtreLabelDate2" for="fin" class="col-form-label">et </label>
-                        <input class="filtreImputDate" type="date" id="fin" name="fin-sortie" {% if choixDateFin is defined %}
-                               value="{{ choixDateFin }}{% endif %}">
-                    </div>
-                </div>
-                <div class="col">
-                    <div>
-                        <input class="imputCheckbox" type="checkbox" id="organisateur" name="organisateur"
-                               value="1"> {#{{ app.user.id }}" {% if choixOrganisateur is defined and choixOrganisateur is not null %}
-                            checked="checked" {% endif %}> #}
-                        <label for="organisateur">Sorties dont je suis l'organisateur/trice</label>
-                    </div>
-                    <div>
-                        <input class="imputCheckbox" type="checkbox" id="inscrit" name="inscrit"
-                               value="1"> {#{{ app.user.id }}" {% if choixInscrit is defined and choixInscrit is not null %}
-                            checked="checked" {% endif %}> #}
-                        <label for="inscrit">Sorties auxquelles je suis inscrit/e</label>
-                    </div>
-                    <div>
-                        <input class="imputCheckbox" type="checkbox" id="pasInscrit" name="pasInscrit"
-                               value="1"> {#{{ app.user.id }}" {% if choixPasInscrit is defined and choixPasInscrit is not null %}
-                            checked="checked" {% endif %}> #}
-                        <label for="pasInscrit">Sorties auxquelles je ne suis pas inscrit/e</label>
-                    </div>
-                    <div>
-                        <input class="imputCheckbox" type="checkbox" id="passee" name="passee"
-                               value="Passée" {% if choixPassee is defined  and choixPassee is not null %}
-                            checked="checked" {% endif %}>
-                        <label for="passee">Sorties passées</label>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <button class="btnAccueil btn btn-success" type="submit">Rechercher </button>
-            </div>
-        </div>
-    </form>
-
+    {#                <div> #}
+    {#                    <label class="filtreLabel" for="rechercher">Le nom contient : </label> #}
+    {#                    <input class="filtreImput" type="text" id="rechercher" name="rechercher" #}
+    {#                           placeholder="rechercher" {% if choix is defined %} #}
+    {#                           value="{{ choix }}{% endif %}"> #}
+    {#                </div> #}
+    {#                <div> #}
+    {#                    <label class="filtreLabelDate1" for="debut">Entre </label> #}
+    {#                    <input class="filtreImputDate" type="date" id="debut" name="debut-sortie" {% if choixDateDebut is defined %} #}
+    {#                           value="{{ choixDateDebut }}{% endif %}"> #}
+    {#                    <label class="filtreLabelDate2" for="fin" class="col-form-label">et </label> #}
+    {#                    <input class="filtreImputDate" type="date" id="fin" name="fin-sortie" {% if choixDateFin is defined %} #}
+    {#                           value="{{ choixDateFin }}{% endif %}"> #}
+    {#                </div> #}
+    {#            </div> #}
+    {#            <div class="col"> #}
+    {#                <div> #}
+    {#                    <input class="imputCheckbox" type="checkbox" id="organisateur" name="organisateur" #}
+    {#                           value="1"> #}{# {{ app.user.id }}" {% if choixOrganisateur is defined and choixOrganisateur is not null %} #}
+    {#                        checked="checked" {% endif %}> #}
+    {#                    <label for="organisateur">Sorties dont je suis l'organisateur/trice</label> #}
+    {#                </div> #}
+    {#                <div> #}
+    {#                    <input class="imputCheckbox" type="checkbox" id="inscrit" name="inscrit" #}
+    {#                           value="1"> #}{# {{ app.user.id }}" {% if choixInscrit is defined and choixInscrit is not null %} #}
+    {#                        checked="checked" {% endif %}> #}
+    {#                    <label for="inscrit">Sorties auxquelles je suis inscrit/e</label> #}
+    {#                </div> #}
+    {#                <div> #}
+    {#                    <input class="imputCheckbox" type="checkbox" id="pasInscrit" name="pasInscrit" #}
+    {#                           value="1"> #}{# {{ app.user.id }}" {% if choixPasInscrit is defined and choixPasInscrit is not null %} #}
+    {#                        checked="checked" {% endif %}> #}
+    {#                    <label for="pasInscrit">Sorties auxquelles je ne suis pas inscrit/e</label> #}
+    {#                </div> #}
+    {#                <div> #}
+    {#                    <input class="imputCheckbox" type="checkbox" id="passee" name="passee" #}
+    {#                           value="Passée" {% if choixPassee is defined  and choixPassee is not null %} #}
+    {#                        checked="checked" {% endif %}> #}
+    {#                    <label for="passee">Sorties passées</label> #}
+    {#                </div> #}
+    {#            </div> #}
+    {#        </div> #}
+    {#        <div> #}
+    {#            <button class="btnAccueil btn btn-success" type="submit">Rechercher </button> #}
+    {#        </div> #}
+    {#    </div> #}
 
     <div class="container">
         <table class="table text-center">
             <thead>
-                <tr>
-                    <th scope="col">Nom de la sortie</th>
-                    <th scope="col">Date de la sortie</th>
-                    <th scope="col">Clôture</th>
-                    <th scope="col">Places</th>
-                    <th scope="col">Etat</th>
-                    <th scope="col">Inscrit</th>
-                    <th scope="col">Organisateur</th>
-                    <th scope="col">Action</th>
-                </tr>
+            <tr>
+                <th scope="col">Nom de la sortie</th>
+                <th scope="col">Date de la sortie</th>
+                <th scope="col">Clôture</th>
+                <th scope="col">Places</th>
+                <th scope="col">Etat</th>
+                <th scope="col">Inscrit</th>
+                <th scope="col">Organisateur</th>
+                <th scope="col">Action</th>
+            </tr>
             </thead>
             <tbody>
-                {% for sortie in sorties %}
-                    <tr>
-                        <td>{{ sortie.nom }}</td>
-                        <td>{{ sortie.dateHeureDebut.format('d/m/Y H:i') }}</td>
-                        <td>{{ sortie.dateLimiteInscription.format('d/m/Y H:i') }}</td>
-                        <td>{{ sortie.inscrits|length }}/{{ sortie.nbInscriptionMax }}</td>
-                        <td>Ouvert</td>
-                        <td></td>
-                        <td>{{ sortie.organisateur.nom }}</td>
-                        <td>
-                            <a href="{{ path('sortie_show', {'id': sortie.id}) }}"><button class="btnTableau btn btn-primary">Afficher</button></a>
-                            {% if sortie.organisateur.id == app.user.id %}
-                                <a href="{{ path('sortie_update', {'id':sortie.id}) }}"><button class="btnTableau warning btn btn-warning">Modifier</button></a>
-                                <form  method="POST" action="{{ path("sortie_remove", {'id' : sortie.id }) }}" onsubmit="return confirm('Confirmation de la suppression ?');">
-                                    <input type="hidden" name="_method" value="DELETE">
-                                    <input type="hidden" name="_token" value="{{ csrf_token('remove'~sortie.id) }}">
-                                    <button  class="btnTableau btn btn-danger" type="submit">Supprimer</button>
-                                </form>
-                            {% endif %}
-{#                            <a href="{{ path('sortie_subscribe') }}"><button class="btnTableau btn btn-primary">S'inscrire</button></a>#}
-                            <a href="{{ path('sortie_unsubscribe') }}"><button class="btnTableau btn btn-primary">Se désinscrire</button></a>
-                        </td>
-                    </tr>
-                {% endfor %}
+            {% for sortie in sortieFiltre %}
+                <tr>
+                    <td>{{ sortie.nom }}</td>
+                    <td>{{ sortie.dateHeureDebut.format('d/m/Y H:i') }}</td>
+                    <td>{{ sortie.dateLimiteInscription.format('d/m/Y H:i') }}</td>
+                    <td>{{ sortie.inscrits|length }}/{{ sortie.nbInscriptionMax }}</td>
+                    <td>
+                        {{ sortie.etat.libelle }}
+                    </td>
+                    <td>
+                        {% if sortie.inscrits.contains(app.user) and app.user.sorties.contains(sortie) and sortie.etat!='Clôturée' %}
+                            X
+                        {% endif %}
+                    </td>
+                    <td>{{ sortie.organisateur.nom }}</td>
+                    <td>
+                        <a href="{{ path('sortie_show', {'id': sortie.id}) }}">
+                            <button class="btnTableau btn btn-primary">Afficher</button>
+                        </a>
+                        {% if sortie.organisateur.id == app.user.id %}
+                            <a href="{{ path('sortie_update', {'id':sortie.id}) }}">
+                                <button class="btnTableau warning btn btn-warning">Modifier</button>
+                            </a>
+                            <form method="POST" action="{{ path("sortie_remove", {'id' : sortie.id }) }}"
+                                  onsubmit="return confirm('Confirmation de la suppression ?');">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <input type="hidden" name="_token" value="{{ csrf_token('remove'~sortie.id) }}">
+                                <button class="btnTableau btn btn-danger" type="submit">Supprimer</button>
+                            </form>
+                        {% endif %}
+
+                        {% if sortie.inscrits.contains(app.user) and app.user.sorties.contains(sortie) and sortie.etat!='Clôturée' %}
+                            <a href="{{ path('sortie_unsubscribe', {'id': sortie.id}) }}"
+                               class="btnTableau btn btn-primary">Se désinscrire
+                            </a>
+                        {% else %}
+                            <a href="{{ path('sortie_subscribe', {'id': sortie.id}) }}"
+                               class="btnTableau btn btn-primary">S'inscrire
+                            </a>   {% endif %}
+
+                    </td>
+                </tr>
+            {% endfor %}
             </tbody>
         </table>
 
         <div>
-            <a href="{{ path('sortie_add') }}" ><button class="btnAccueil btn btn-success" type="button">Créer une sortie</button></a>
+            <a href="{{ path('sortie_add') }}">
+                <button class="Accueil btn btn-dark" type="button">Créer une sortie</button>
+            </a>
         </div>
 
     </div>
 
 
 {% endblock %}
-
-
-
-
