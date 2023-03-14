@@ -14,12 +14,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\HasLifecycleCallbacks]
 class Sortie
 {
-    const IS_CREATED = 'créée';
-    const IS_OPEN = 'ouverte';
-    const IS_CLOSED = 'cloturée';
-    const IS_ONGOING = 'en cours';
-    const IS_PASSED = 'terminée';
-    const IS_CANCELLED = 'annulée';
+    const IS_CREATED = 'Créée';
+    const IS_OPEN = 'Ouverte';
+    const IS_CLOSED = 'Cloturée';
+    const IS_ONGOING = 'Activité en cours';
+    const IS_PASSED = 'Passée';
+    const IS_CANCELLED = 'Annulée';
 
 
     #[ORM\Id]
@@ -33,6 +33,10 @@ class Sortie
     private ?string $nom = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Assert\MoreThanOrEqual(
+        propertyPath: "dateLimiteInscription",
+        message: "Cette date doit être postérieure à la date limite d'inscription "
+    )]
     #[Assert\NotBlank(message: "Veuillez choisir une date et une heure de début de votre sortie")]
     private ?\DateTimeInterface $dateHeureDebut = null;
 

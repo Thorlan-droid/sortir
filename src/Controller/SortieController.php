@@ -116,6 +116,7 @@ class SortieController extends AbstractController
         SortieRepository $sortieRepository,
         Request          $request,
         ChangerEtat      $changerEtat,
+      //  Sortie $sortie,
     ): Response
     {
         $sortie = new Sortie();
@@ -128,6 +129,7 @@ class SortieController extends AbstractController
 
             $campus = $this->getUser()->getCampus();
             $organisateur = $this->getUser();
+            $etat = $changerEtat->changerSortie($sortie);
             $etat = $changerEtat->changerEtat();
 
             $campus->getNom();
