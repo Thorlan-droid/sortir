@@ -38,5 +38,6 @@
 {#    {{ form_row(userForm.username) }}#}
 {#    {{ form_widget(userForm) }}#}
     <button>Enregistrer les modifications</button>
+    <a href="{{ path('sortie_list') }}"><button>Annuler</button></a>
     {{ form_end(userForm) }}
 {% endblock %}

@@ -135,7 +135,7 @@
                                class="btnTableau btn btn-primary">Se désinscrire
                             </a>
                         {% else %}
-                            {% if  sortie.etat.libelle == 'Ouverte' %}
+                            {% if sortie.etat.libelle == 'Ouverte' and sortie.inscrits.count < sortie.nbInscriptionMax %}
                                 <a href="{{ path('sortie_subscribe', {'id': sortie.id}) }}"
                                    class="btnTableau btn btn-primary">S'inscrire
                                 </a>
