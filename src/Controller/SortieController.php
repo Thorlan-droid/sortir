@@ -128,7 +128,7 @@ class SortieController extends AbstractController
 
             $campus = $this->getUser()->getCampus();
             $organisateur = $this->getUser();
-            $etat = $changerEtat->sortieCreee();
+            $etat = $changerEtat->changerEtat();
 
             $campus->getNom();
             $sortie->setEtat($etat);
@@ -165,7 +165,7 @@ class SortieController extends AbstractController
 
             $campus = $this->getUser()->getCampus();
             $organisateur = $this->getUser();
-            $etat = $changerEtat->sortieCreee();
+            $etat = $changerEtat->changerEtat();
 
             $campus->getNom();
             $sortie->setEtat($etat);
@@ -210,7 +210,7 @@ class SortieController extends AbstractController
             $organisateur = $this->getUser();
 //          $etat = $etatRepository->findOneBy(array('libelle' => 'Annulée'));
 
-            $etat = $changerEtat->sortieAnnulee();
+            $etat = $changerEtat->changerEtat();
 
             $campus->getNom();
             $sortie->setEtat($etat);

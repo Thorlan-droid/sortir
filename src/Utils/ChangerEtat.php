@@ -15,26 +15,26 @@ class ChangerEtat
     {
     }
 
-    public function verifierEtat(Sortie $sortie): Sortie
-    {
-        $this->verif($sortie);
+//    public function verifierEtat(Sortie $sortie): Sortie
+//    {
+//        $this->changerEtat($sortie);
+//
+//        return $sortie;
+//
+//    }
+//
+//    public function verifierEtats(array $sorties): array
+//    {
+//
+//        foreach ($sorties as $sortie) {
+//
+//            $this->changerEtat($sortie);
+//        }
+//        return $sorties;
+//    }
 
-        return $sortie;
 
-    }
-
-    public function verifierEtats(array $sorties): array
-    {
-
-        foreach ($sorties as $sortie) {
-
-            $this->verif($sortie);
-        }
-        return $sorties;
-    }
-
-
-    private function verif(Sortie $sortie)
+    public function changerEtat(Sortie $sortie)
     {
 
         if ($sortie->getDateHeureDebut() === null) {

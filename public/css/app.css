@@ -103,17 +103,17 @@ input[type="date"] {
     vertical-align: middle;
 }
 
-.btnTableau{
-    min-width: 110px;
+.btnAction {
+    width: 105px;
     margin: 2px;
-    font-weight: bold;
-}.
+    padding: 2px;
+}
 
- btnAccueil{
-     min-width: 140px;
-     margin: 2px;
-     font-weight: bold;
- }
+.btnInscription{
+    width: 116px;
+    margin: 2px;
+    padding: 2px;
+}
 
 .h2perso{
     margin-top: 100px;

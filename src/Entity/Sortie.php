@@ -146,7 +146,7 @@ class Sortie
         return $this;
     }
 
-    /**
+    /**l
      * @return Collection<int, User>
      */
     public function getInscrits(): Collection

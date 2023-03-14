@@ -90,7 +90,7 @@
                 <th scope="col">Etat</th>
                 <th scope="col">Inscrit</th>
                 <th scope="col">Organisateur</th>
-                <th scope="col">Action</th>
+                <th colspan="2" scope="col">Action</th>
             </tr>
             </thead>
             <tbody>
@@ -112,36 +112,36 @@
                     </td>
                     <td>
                         <a href="{{ path('sortie_show', {'id': sortie.id}) }}">
-                            <button class="btnTableau btn btn-primary">Afficher</button>
+                            <button class="btn btn-primary btnAction">Afficher</button>
                         </a>
 
                         {% if sortie.organisateur.id == app.user.id and sortie.etat.libelle == 'Créée' %}
                             <a href="{{ path('sortie_update', {'id':sortie.id}) }}">
-                                <button class="btnTableau warning btn btn-warning">Modifier</button>
+                                <button class="warning btn btn-warning btnAction">Modifier</button>
                             </a>
                             <a href="{{ path('sortie_cancel', {'id': sortie.id}) }}">
-                                <button class="btnTableau btn btn-primary">Annuler</button>
+                                <button class="btn btn-primary btnAction">Annuler</button>
                             </a>
                             <form method="POST" action="{{ path("sortie_remove", {'id' : sortie.id }) }}"
                                   onsubmit="return confirm('Confirmation de la suppression ?');">
                                 <input type="hidden" name="_method" value="DELETE">
                                 <input type="hidden" name="_token" value="{{ csrf_token('remove'~sortie.id) }}">
-                                <button class="btnTableau btn btn-danger" type="submit">Supprimer</button>
+                                <button class="btn btn-danger btnAction" type="submit">Supprimer</button>
                             </form>
                         {% endif %}
-
+                    </td>
+                    <td>
                         {% if sortie.inscrits.contains(app.user) and app.user.sorties.contains(sortie) and sortie.etat.libelle!='Clôturée' %}
                             <a href="{{ path('sortie_unsubscribe', {'id': sortie.id}) }}"
-                               class="btnTableau btn btn-primary">Se désinscrire
+                               class="btn btn-primary btnInscription">Se désinscrire
                             </a>
                         {% else %}
                             {% if sortie.etat.libelle == 'Ouverte' and sortie.inscrits.count < sortie.nbInscriptionMax %}
                                 <a href="{{ path('sortie_subscribe', {'id': sortie.id}) }}"
-                                   class="btnTableau btn btn-primary">S'inscrire
+                                   class="btn btn-primary btnInscription">S'inscrire
                                 </a>
                             {% endif %}
                         {% endif %}
-
                     </td>
                 </tr>
             {% endfor %}
