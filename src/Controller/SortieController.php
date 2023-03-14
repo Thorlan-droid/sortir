@@ -129,7 +129,7 @@ class SortieController extends AbstractController
 
             $campus = $this->getUser()->getCampus();
             $organisateur = $this->getUser();
-            $etat = $etatRepository->findOneBy(array('libelle' => 'Creee'));
+            $etat = $etatRepository->findOneBy(array('libelle' => 'Créée'));
 
             $campus->getNom();
             $sortie->setEtat($etat);
@@ -151,9 +151,7 @@ class SortieController extends AbstractController
     public function update(int $id, SortieRepository $sortieRepository, EtatRepository $etatRepository, UserRepository $userRepository, Request $request): Response
     {
         $sortie = $sortieRepository->find($id);
-
         $sortieForm = $this->createForm(SortieType::class, $sortie);
-
         $sortieForm->handleRequest($request);
 
         /* if ($sortie->getOrganisateur()->getId() !== $this->getUser()->getUserIdentifier()) {
@@ -168,7 +166,7 @@ class SortieController extends AbstractController
 
             $campus = $this->getUser()->getCampus();
             $organisateur = $this->getUser();
-            $etat = $etatRepository->findOneBy(array('libelle' => 'Creee'));
+            $etat = $etatRepository->findOneBy(array('libelle' => 'Créée'));
 
             $campus->getNom();
             $sortie->setEtat($etat);
@@ -200,9 +198,7 @@ class SortieController extends AbstractController
                            EntityManagerInterface $entityManager): Response
     {
         $sortie = $sortieRepository->find($id);
-
         $cancelSortieForm = $this->createForm(CancelSortieType::class, $sortie);
-
         $cancelSortieForm->handleRequest($request);
 
 
@@ -214,7 +210,7 @@ class SortieController extends AbstractController
 
             $campus = $this->getUser()->getCampus();
             $organisateur = $this->getUser();
-//            $etat = $etatRepository->findOneBy(array('libelle' => 'Creee'));
+//            $etat = $etatRepository->findOneBy(array('libelle' => 'Créée'));
 
             $etat = $entityManager->getRepository(Etat::class)->findOneBy(['libelle' => 'Annulée']);
 //
@@ -231,7 +227,7 @@ class SortieController extends AbstractController
 
             $this->addFlash("success", "Sortie annulée !");
 
-            return $this->redirectToRoute("sortie/list");
+            return $this->redirectToRoute("sortie_list");
         }
 
 
@@ -271,7 +267,7 @@ class SortieController extends AbstractController
         $dateActuelle = new \DateTime();
 
         if ((!$sortie->getInscrits()->contains($user)) && (!$user->getSorties()->contains($sortie)) &&
-            ($sortieEtat = "Ouverte") && ($sortie->getDateLimiteInscription() >= $dateActuelle)) {
+            ($sortieEtat == "Ouverte") && ($sortie->getDateLimiteInscription() >= $dateActuelle)) {
             $sortie->addInscrit($user);
             $sortieRepository->save($sortie, true);
 

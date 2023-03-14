@@ -71,14 +71,12 @@
 
         {{ form_end(filtre) }}
 
-{#        {{ form_start(filtre) }}#}
-{#        {{ form_widget(filtre) }}#}
-{#        <button type="submit" class="Accueil btn btn-dark">Rechercher</button>#}
-{#        <button type="reset" class="Accueil btn btn-dark">Effacer</button>#}
-{#        {{ form_end(filtre) }}#}
+        {#        {{ form_start(filtre) }} #}
+        {#        {{ form_widget(filtre) }} #}
+        {#        <button type="submit" class="Accueil btn btn-dark">Rechercher</button> #}
+        {#        <button type="reset" class="Accueil btn btn-dark">Effacer</button> #}
+        {#        {{ form_end(filtre) }} #}
     </div>
-
-
 
 
     <div class="container">
@@ -106,17 +104,18 @@
                         {{ sortie.etat.libelle }}
                     </td>
                     <td>
-                        {% if sortie.inscrits.contains(app.user) and app.user.sorties.contains(sortie) and sortie.etat!='Clôturée' %}
+                        {% if sortie.inscrits.contains(app.user) and app.user.sorties.contains(sortie) and sortie.etat.libelle!='Clôturée' %}
                             X
                         {% endif %}
                     </td>
-                    <td><a href="{{ path('user_show', {'id' : sortie.id}) }}">{{ sortie.organisateur.username }}</a></td>
+                    <td><a href="{{ path('user_show', {'id' : sortie.id}) }}">{{ sortie.organisateur.username }}</a>
+                    </td>
                     <td>
                         <a href="{{ path('sortie_show', {'id': sortie.id}) }}">
                             <button class="btnTableau btn btn-primary">Afficher</button>
                         </a>
 
-                        {% if sortie.organisateur.id == app.user.id %}
+                        {% if sortie.organisateur.id == app.user.id and sortie.etat.libelle == 'Créée' %}
                             <a href="{{ path('sortie_update', {'id':sortie.id}) }}">
                                 <button class="btnTableau warning btn btn-warning">Modifier</button>
                             </a>
@@ -131,14 +130,17 @@
                             </form>
                         {% endif %}
 
-                        {% if sortie.inscrits.contains(app.user) and app.user.sorties.contains(sortie) and sortie.etat!='Clôturée' %}
+                        {% if sortie.inscrits.contains(app.user) and app.user.sorties.contains(sortie) and sortie.etat.libelle!='Clôturée' %}
                             <a href="{{ path('sortie_unsubscribe', {'id': sortie.id}) }}"
                                class="btnTableau btn btn-primary">Se désinscrire
                             </a>
                         {% else %}
-                            <a href="{{ path('sortie_subscribe', {'id': sortie.id}) }}"
-                               class="btnTableau btn btn-primary">S'inscrire
-                            </a>   {% endif %}
+                            {% if  sortie.etat.libelle == 'Ouverte' %}
+                                <a href="{{ path('sortie_subscribe', {'id': sortie.id}) }}"
+                                   class="btnTableau btn btn-primary">S'inscrire
+                                </a>
+                            {% endif %}
+                        {% endif %}
 
                     </td>
                 </tr>
