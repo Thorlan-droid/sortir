@@ -36,6 +36,9 @@ class ChangerEtat
 
     public function changerEtat(Sortie $sortie)
     {
+        define('UN_MOIS', strtotime('+1 month'));
+
+        $dateFin = '2023-03-14';$dateCloture = date('Y-m-d', strtotime('+'.UN_MOIS.' seconds', strtotime($dateFin)));
 
         if ($sortie->getDateHeureDebut() === null) {
             throw new \Exception('DateHeureDebut cannot be null');

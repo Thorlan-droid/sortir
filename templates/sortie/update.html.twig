@@ -16,17 +16,20 @@
     </div>
 
     {{ form_rest(sortieForm) }}
-    <button class="btn btn-success">Enregistrer</button>
+
+    <div>
+        <button class="btn btn-success">Enregistrer</button>
+        <button class="btn btn-success" >Publier la sortie</button>
+        <form method="POST" action="{{ path("sortie_remove", {'id' : sortie.id }) }}"
+              onsubmit="return confirm('Confirmation de la suppression ?');">
+            <input type="hidden" name="_method" value="DELETE">
+            <input type="hidden" name="_token" value="{{ csrf_token('remove'~sortie.id) }}">
+            <button class="btn btn-danger" type="submit">Supprimer</button>
+        </form>
+        <a href="{{ path('sortie_list') }}"><button class="btn btn-danger">Annuler</button></a>
+    </div>
 
     {{ form_end(sortieForm) }}
-    <button>Publier la sortie</button>
-    <form  method="POST" action="{{ path("sortie_remove", {'id' : sortie.id }) }}" onsubmit="return confirm('Confirmation de la suppression ?');">
-        <input type="hidden" name="_method" value="DELETE">
-        <input type="hidden" name="_token" value="{{ csrf_token('remove'~sortie.id) }}">
-        <button  type="submit">- Supprimer</button>
-    </form>
-    <a href="{{ path('sortie_list') }}"><button>Annuler</button></a>
-
 
 {% endblock %}
 

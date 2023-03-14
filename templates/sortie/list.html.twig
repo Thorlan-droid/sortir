@@ -68,6 +68,7 @@
         </div>
 
         <button type="submit" class="btn btn-dark mb-5">Rechercher</button>
+        <button type="reset" class="btn btn-dark mb-5">Effacer</button>
 
         {{ form_end(filtre) }}
 
@@ -122,12 +123,6 @@
                             <a href="{{ path('sortie_cancel', {'id': sortie.id}) }}">
                                 <button class="btn btn-primary btnAction">Annuler</button>
                             </a>
-                            <form method="POST" action="{{ path("sortie_remove", {'id' : sortie.id }) }}"
-                                  onsubmit="return confirm('Confirmation de la suppression ?');">
-                                <input type="hidden" name="_method" value="DELETE">
-                                <input type="hidden" name="_token" value="{{ csrf_token('remove'~sortie.id) }}">
-                                <button class="btn btn-danger btnAction" type="submit">Supprimer</button>
-                            </form>
                         {% endif %}
                     </td>
                     <td>

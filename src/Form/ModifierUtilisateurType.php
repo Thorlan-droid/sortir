@@ -26,35 +26,35 @@ class ModifierUtilisateurType extends AbstractType
     {
         $builder
             ->add('username', TextType::class, [
-                'label' => 'Pseudo: ',
+                'label' => 'Pseudo : ',
                 //'attr' => ['class' => 'form-control']
             ])
 //            ->add('roles')
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'invalid_message' => 'Le mot de passe doit être identique!',
-                'label' => 'Mot de passe: ',
-                'first_options'  => ['label' => 'Mot de passe:'],
-                'second_options' => ['label' => 'Confirmez:'],
+                'label' => 'Mot de passe : ',
+                'first_options'  => ['label' => 'Mot de passe :'],
+                'second_options' => ['label' => 'Confirmez :'],
                 'mapped' => false
             ])
             ->add('nom', TextType::class, [
-                'label' => ' Nom: '
+                'label' => ' Nom : '
             ])
             ->add('prenom', TextType::class, [
-                'label' => 'Prénom: '
+                'label' => 'Prénom : '
             ])
             ->add('telephone', TelType::class, [
-                'label' => 'Numéro de Téléphone: '
+                'label' => 'N° de Téléphone : '
             ])
             ->add('email', EmailType::class, [
-                'label' => 'Email: '
+                'label' => 'Email : '
             ])
 
             ->add('campus', EntityType::class, [
                 'class' => Campus::class,
                 'choice_label' => 'nom',
-                'label' => 'Campus associé',
+                'label' => 'Campus associé :',
                 'query_builder' => function(CampusRepository $campusRepository){
                 $qb = $campusRepository->createQueryBuilder("c");
                 $qb->addOrderBy("c.nom");
