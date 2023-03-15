@@ -82,7 +82,7 @@
             <tbody>
             {% for inscrit in sortie.inscrits %}
                 <tr>
-                    <td>{{ inscrit.username }}</td>
+                    <td><a href="{{ path('user_show', {'id' : sortie.id}) }}">{{ inscrit.username }}</a></td>
                     <td>{{ inscrit.prenom ~ ' ' ~ inscrit.nom }}</td>
                 </tr>
             {% endfor %}
