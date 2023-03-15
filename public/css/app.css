@@ -206,3 +206,7 @@ tr:nth-child(even) {
     border-radius: 4px;
     border: 1px solid #ccc;
 }
+
+.tablePerso {
+    max-height: 500px;
+}
