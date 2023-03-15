@@ -214,3 +214,11 @@ tr:nth-child(even) {
 .nav-link{
     color: #1d85ce;
 }
+
+.nav-link:hover {
+    color: #ec841e;
+}
+
+.image{
+    width: 250px;
+}
