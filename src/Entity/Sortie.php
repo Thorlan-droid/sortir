@@ -72,7 +72,7 @@ class Sortie
 
     #[ORM\ManyToOne(inversedBy: 'etatSortie')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Assert\Choice(["creee", "ouverte", "cloturee", "activite en cours", "passee", "annulee"])]
+    #[Assert\Choice(["Créée", "Ouverte", "Cloturée", "Activité en cours", "Passée", "Annulée"])]
     private ?Etat $etat = null;
 
     #[ORM\Column]

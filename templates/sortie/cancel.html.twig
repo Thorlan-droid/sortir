@@ -1,21 +1,19 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}
-    Annuler une sortie
-{% endblock %}
-
 {% block body %}
-    <h2 class="h2perso mb-5">Annuler une sortie</h2>
+    <h1>Annuler la sortie "{{ sortie.nom }}"</h1>
 
-    <div class="AnnulerSortie">
-        {{ form_start(cancelSortieForm) }}
+    {{ form_start(cancelSortieForm) }}
 
+{#    {{ form_errors(cancelSortieForm) }}#}
 
+    <div class="form-group">
+        {{ form_label(cancelSortieForm.infosSortie) }}
+        {{ form_widget(cancelSortieForm.infosSortie, { 'attr': {'class': 'form-control'} }) }}
+        {{ form_errors(cancelSortieForm.infosSortie) }}
     </div>
 
-
-    {{ form_rest(cancelSortieForm) }}
-    <a href="{{ path('sortie_list') }}"><button class="btn btn-success">Confirmer</button></a>
+    <button type="submit" class="btn btn-danger">Annuler la sortie</button>
 
     {{ form_end(cancelSortieForm) }}
 

@@ -14,9 +14,13 @@ class CancelSortieType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+
             ->add('infosSortie', TextareaType::class, [
-                'label' => "Motif d'annulation"
-            ]);
+                'label' => "Motif d'annulation",
+                'required' => false
+            ])
+
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

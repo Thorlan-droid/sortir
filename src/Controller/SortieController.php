@@ -114,9 +114,8 @@ class SortieController extends AbstractController
     #[Route('/add', name: 'add')]
     public function add(
         SortieRepository $sortieRepository,
+        EtatRepository   $etatRepository,
         Request          $request,
-        ChangerEtat      $changerEtat,
-      //  Sortie $sortie,
     ): Response
     {
         $sortie = new Sortie();
@@ -129,8 +128,7 @@ class SortieController extends AbstractController
 
             $campus = $this->getUser()->getCampus();
             $organisateur = $this->getUser();
-            $etat = $changerEtat->changerSortie($sortie);
-            $etat = $changerEtat->changerEtat();
+            $etat = $etatRepository->findOneBy(array('libelle' => 'Creee'));
 
             $campus->getNom();
             $sortie->setEtat($etat);
@@ -149,7 +147,7 @@ class SortieController extends AbstractController
     }
 
     #[Route('/update/{id}', name: 'update', requirements: ['id' => '\d+'])]
-    public function update(int $id, SortieRepository $sortieRepository, ChangerEtat $changerEtat, Request $request): Response
+    public function update(int $id, SortieRepository $sortieRepository, EtatRepository $etatRepository, UserRepository $userRepository, Request $request): Response
     {
         $sortie = $sortieRepository->find($id);
         $sortieForm = $this->createForm(SortieType::class, $sortie);
@@ -167,7 +165,7 @@ class SortieController extends AbstractController
 
             $campus = $this->getUser()->getCampus();
             $organisateur = $this->getUser();
-            $etat = $changerEtat->changerEtat();
+            $etat = $etatRepository->findOneBy(array('libelle' => 'Creee'));
 
             $campus->getNom();
             $sortie->setEtat($etat);
