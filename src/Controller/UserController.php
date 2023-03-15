@@ -32,15 +32,15 @@ class UserController extends AbstractController
     public function show(int $id, UserRepository $userRepository): Response
     {
         $user = $userRepository->find($id);
-
-//        if (!$user) {
-//            throw $this->createNotFoundException("Oops ! Utilisateur non trouvé !");
-//        }
+        
+        if (!$user) {
+            throw $this->createNotFoundException("Oops ! Utilisateur non trouvé !");
+        }
 
         return $this->render('/user/show.html.twig', [
             'user' => $user
         ]);
-    }
+   }
 
 //    #[Route('/update', name: 'update')]
 //    public function updateProfile(Request $request, UserRepository $userRepository): Response
