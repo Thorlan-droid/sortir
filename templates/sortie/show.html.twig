@@ -11,54 +11,54 @@
     <div class="container">
         <table class="table tableauSortie">
             <tbody>
-                <tr>
-                    <th scope="row">Nom de la sortie : </th>
-                    <td>{{ sortie.nom }}</td>
-                </tr>
-                <tr>
-                    <th scope="row">Date et heure : </th>
-                    <td>{{ sortie.dateHeureDebut | date('Y-m-d H:i:s') }}</td>
-                </tr>
-                <tr>
-                    <th scope="row">Date limite d'inscription : </th>
-                    <td>{{ sortie.dateLimiteInscription.format('d/m/Y H:i') }}</td>
-                </tr>
-                <tr>
-                    <th scope="row">Nombre de places : </th>
-                    <td>{{ sortie.inscrits|length }}/{{ sortie.nbInscriptionMax }}</td>
-                </tr>
-                <tr>
-                    <th scope="row">Durée : </th>
-                    <td>{{ sortie.duree | date('H:i:s') }}</td>
-                </tr>
-                <tr>
-                    <th scope="row">Description et infos : </th>
-                    <td>{{ sortie.infosSortie }}</td>
-                </tr>
-                <tr>
-                    <th scope="row">Campus : </th>
-                    <td>{{ sortie.campus.nom }}</td>
-                </tr>
-                <tr>
-                    <th scope="row">Ville : </th>
-                    <td>Rennes</td>
-                </tr>
-                <tr>
-                    <th scope="row">Lieu : </th>
-                    <td>{{ sortie.lieu.nom }}</td>
-                </tr>
-                <tr>
-                    <th scope="row">Rue : </th>
-                    <td>{{ sortie.lieu.rue }}</td>
-                </tr>
-                <tr>
-                    <th scope="row">Code postal :</th>
-                    <td>35000</td>
-                </tr>
+            <tr>
+                <th scope="row">Nom de la sortie :</th>
+                <td>{{ sortie.nom }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Date et heure :</th>
+                <td>{{ sortie.dateHeureDebut | date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Date limite d'inscription :</th>
+                <td>{{ sortie.dateLimiteInscription.format('d/m/Y H:i') }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Nombre de places :</th>
+                <td>{{ sortie.inscrits|length }}/{{ sortie.nbInscriptionMax }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Durée :</th>
+                <td>{{ sortie.duree | date('H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Description et infos :</th>
+                <td>{{ sortie.infosSortie }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Campus :</th>
+                <td>{{ sortie.campus.nom }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Ville :</th>
+                <td>Rennes</td>
+            </tr>
+            <tr>
+                <th scope="row">Lieu :</th>
+                <td>{{ sortie.lieu.nom }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Rue :</th>
+                <td>{{ sortie.lieu.rue }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Code postal :</th>
+                <td>35000</td>
+            </tr>
             </tbody>
         </table>
     </div>
-{#
+    {#
     <div>Nom de la sortie {{ sortie.nom }}</div>
     <div>Date et heure : {{ sortie.dateHeureDebut | date('Y-m-d H:i:s') }}</div>
     <div>Date limite d'inscription : {{ sortie.dateLimiteInscription.format('d/m/Y H:i') }}</div>
@@ -70,14 +70,24 @@
     <div>Rue : {{ sortie.lieu.rue }}</div>
     <div>Code postal :</div>
     <div>Clôture : {{ sortie.dateLimiteInscription | date('Y-m-d H:i:s') }}</div>
-
-#}
-        <section class="inscrits">
-            <h4 class="h2perso">Liste des inscrits :</h4>
+    #}
+    <section class="inscrits">
+        <h4 class="h2perso">Liste des participants inscrits :</h4>
+        <table class="table text-center">
+            <thead>
+            <tr>
+                <th scope="col">Pseudo</th>
+                <th scope="col">Nom</th>
+            </thead>
+            <tbody>
             {% for inscrit in sortie.inscrits %}
-                <div>{{ inscrit.nom }}</div>
-{#               <div>{{ inscrit.lieu.ville }}</div>#}
+                <tr>
+                    <td>{{ inscrit.username }}</td>
+                    <td>{{ inscrit.prenom ~ ' ' ~ inscrit.nom }}</td>
+                </tr>
             {% endfor %}
-        </section>
+            </tbody>
+        </table>
+    </section>
 
 {% endblock %}
