@@ -223,6 +223,40 @@ class SortieController extends AbstractController
         ]);
     }
 
+
+
+    #[Route('/publish/{id}', name: 'publish', requirements: ['id' => '\d+'])]
+    public function publish(int $id, SortieRepository $sortieRepository, EtatRepository $etatRepository, Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $sortie = $sortieRepository->find($id);
+
+        if (!$sortie) {
+            throw $this->createNotFoundException('Nous n\'avons pas trouvé votre sortie');
+        }
+
+            $etat = $etatRepository->findOneBy(['libelle' => 'Ouverte']);
+            // Récupération de l'entité de l'état "Ouverte"
+
+            $sortie->setEtat($etat);
+            // Modification de l'état de la sortie à l'état "Ouverte"
+
+            $sortieRepository->save($sortie, true);
+            // Sauvegarde de la sortie modifiée
+
+            $this->addFlash("success", "Sortie publiée !");
+
+            return $this->redirectToRoute("sortie_list");
+
+
+        return $this->render('sortie/update.html.twig', [
+
+            'sortie' => $sortie
+
+        ]);
+    }
+
+
+
     #[Route('/remove/{id}', name: 'remove')]
     public function remove(int $id, SortieRepository $sortieRepository, EntityManagerInterface $entityManager)
     {

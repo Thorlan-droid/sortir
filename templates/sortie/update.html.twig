@@ -25,7 +25,7 @@
 
         <div>
             <button class="btn btn-success">Enregistrer</button>
-            <button class="btn btn-success" >Publier la sortie</button>
+
             <form method="POST" action="{{ path("sortie_remove", {'id' : sortie.id }) }}"
                   onsubmit="return confirm('Confirmation de la suppression ?');">
                 <input type="hidden" name="_method" value="DELETE">
@@ -33,9 +33,11 @@
                 <button class="btn btn-danger" type="submit">Supprimer</button>
             </form>
             <a href="{{ path('sortie_list') }}"><button class="btn btn-danger">Annuler</button></a>
+
         </div>
 
         {{ form_end(sortieForm) }}
+    <a href="{{ path('sortie_publish', {'id':sortie.id}) }}"><button class="btn btn-success" >Publier la sortie</button></a>
 
 </div>
 {% endblock %}
