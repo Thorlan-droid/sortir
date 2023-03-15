@@ -80,8 +80,8 @@
     </div>
 
 
-    <div >
-        <table class="table text-center tablePerso">
+    <div class="tablePerso">
+        <table class="table text-center">
             <thead>
             <tr>
                 <th scope="col">Nom de la sortie</th>
@@ -91,7 +91,7 @@
                 <th scope="col">Etat</th>
                 <th scope="col">Inscrit</th>
                 <th scope="col">Organisateur</th>
-                <th colspan="2" scope="col">Action</th>
+                <th scope="col">Action</th>
             </tr>
             </thead>
             <tbody>
@@ -112,20 +112,6 @@
                     <td><a href="{{ path('user_show', {'id' : sortie.organisateur.id}) }}">{{ sortie.organisateur.username }}</a>
                     </td>
                     <td>
-                        <a href="{{ path('sortie_show', {'id': sortie.id}) }}">
-                            <button class="btn btn-primary btnAction">Afficher</button>
-                        </a>
-
-                        {% if sortie.organisateur.id == app.user.id and sortie.etat.libelle == 'Créée' %}
-                            <a href="{{ path('sortie_update', {'id':sortie.id}) }}">
-                                <button class="warning btn btn-warning btnAction">Modifier</button>
-                            </a>
-                            <a href="{{ path('sortie_cancel', {'id': sortie.id}) }}">
-                                <button class="btn btn-danger btnAction">Annuler</button>
-                            </a>
-                        {% endif %}
-                    </td>
-                    <td>
                         {% if sortie.inscrits.contains(app.user) and app.user.sorties.contains(sortie) and sortie.etat.libelle!='Clôturée' %}
                             <a href="{{ path('sortie_unsubscribe', {'id': sortie.id}) }}"
                                class="btn btn-primary btnInscription">Se désinscrire
@@ -136,6 +122,17 @@
                                    class="btn btn-primary btnInscription">S'inscrire
                                 </a>
                             {% endif %}
+                        {% endif %}
+                        <a href="{{ path('sortie_show', {'id': sortie.id}) }}">
+                            <button class="btn btn-secondary btnAction">Afficher</button>
+                        </a>
+                        {% if sortie.organisateur.id == app.user.id and sortie.etat.libelle == 'Créée' %}
+                            <a href="{{ path('sortie_update', {'id':sortie.id}) }}">
+                                <button class="warning btn btn-warning btnAction">Modifier</button>
+                            </a>
+                            <a href="{{ path('sortie_cancel', {'id': sortie.id}) }}">
+                                <button class="btn btn-danger btnAction">Annuler</button>
+                            </a>
                         {% endif %}
                     </td>
                 </tr>

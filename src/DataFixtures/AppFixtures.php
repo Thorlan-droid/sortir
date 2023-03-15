@@ -36,7 +36,6 @@ class AppFixtures extends Fixture
 
     }
 
-
     private function ajoutVille(int $number){
 
         $ville = new Ville();
@@ -100,5 +99,25 @@ class AppFixtures extends Fixture
 
         $this->entityManager->flush();
 
+    }
+
+    private function addLieu(ObjectManager $manager)
+    {
+        $villerepo=new VilleRepository($this->managerRegistry);
+        $villes=$villerepo->findAll();
+
+        for ($i=0; $i<50; $i++){
+
+            $lieu = new Lieu();
+
+            $lieu->setVille($this->faker->randomElement($villes));
+            $lieu->setNom($this->faker->city);
+            $lieu->setRue($this->faker->address);
+            $lieu->setLatitude($this->faker->latitude);
+            $lieu->setLongitude($this->faker->longitude);
+
+            $manager->persist($lieu);
+        }
+        $manager->flush();
     }
 }
