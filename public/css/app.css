@@ -104,7 +104,7 @@ input[type="date"] {
 }
 
 .btnAction {
-    width: 105px;
+    width: 80px;
     margin: 2px;
     padding: 2px;
 }
@@ -173,4 +173,28 @@ tr:nth-child(even) {
 
 .annulerProfil{
     /*margin-left: 160px;*/
+}
+
+/* ------- Modifier sortie ---------*/
+.largeurUpdate {
+    width: 360px;
+}
+
+.modifierSortie label{
+    width: 150px;
+    font-weight: bold;
+}
+
+.modifierSortie input{
+    width: 200px;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+.modifierSortie select {
+    width: 200px;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
 }

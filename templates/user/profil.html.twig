@@ -43,8 +43,8 @@
     {#            </div>#}
         {{ form_row(userForm.username) }}
         {{ form_widget(userForm) }}
-        <button class="btn btn-dark">Enregistrer</button>
-        <a href="{{ path('sortie_list') }}"><button class="btn btn-dark annulerProfil">Annuler</button></a>
+        <button type="submit" class="btn btn-dark">Enregistrer</button>
+        <a href="{{ path('sortie_list') }}"><button type="button" class="btn btn-dark annulerProfil">Annuler</button></a>
         {{ form_end(userForm) }}
         </div>
     </div>

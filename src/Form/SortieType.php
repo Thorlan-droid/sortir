@@ -29,7 +29,7 @@ class SortieType extends AbstractType
     {
         $builder
             ->add('nom', TextType::class, [
-                'label' => 'Nom de la sortie'
+                'label' => 'Nom de la sortie :'
             ])
             ->add('campus', EntityType::class, [
                 'label'=> 'campus : ',
@@ -38,7 +38,7 @@ class SortieType extends AbstractType
             ])
 
             ->add('lieu', EntityType::class,[
-                'label' => 'Lieu',
+                'label' => 'Lieu :',
                 'class'=> Lieu::class,
                 'choice_label' => 'nom',
                 'query_builder' => function(LieuRepository $lieuRepository) {
@@ -48,21 +48,21 @@ class SortieType extends AbstractType
             ])
 
             ->add('dateHeureDebut', DateTimeType::class, [
-                'label' => 'Date et heure de la sortie',
+                'label' => 'Date et heure :',
                 'html5' => true,
                 'widget' => 'single_text'
             ])
             ->add('duree', TimeType::class)
             ->add('dateLimiteInscription', DateType::class, [
-                'label' => 'Date limite d inscription',
+                'label' => 'Date limite d inscription :',
                 'html5' => true,
                 'widget' => 'single_text'
             ])
             ->add('nbInscriptionMax', TextType::class, [
-                'label' => 'Nombre de places'
+                'label' => 'Nombre de places :'
             ])
             ->add('infosSortie', TextareaType::class, [
-                'label' => 'Description et infos'
+                'label' => 'Description :'
             ]);
 
 

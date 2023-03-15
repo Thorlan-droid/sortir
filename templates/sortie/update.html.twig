@@ -5,32 +5,38 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Modifier une sortie</h1>
 
+<div class="center">
+    <div class="largeurUpdate ">
 
-    <div class="modifierSortie">
-        {{ form_start(sortieForm) }}
-        {{ form_label(sortieForm.nom) }}
-        {{ form_widget(sortieForm.nom) }}
-        {{ form_errors(sortieForm.nom) }}
+        <div class="modifierSortie">
+            <h2 class="h2perso">Modifier une sortie</h2>
+
+            {{ form_start(sortieForm) }}
+            {{ form_label(sortieForm.nom) }}
+            {{ form_widget(sortieForm.nom) }}
+            {{ form_errors(sortieForm.nom) }}
+
+            {{ form_rest(sortieForm) }}
+
+        </div>
     </div>
 
-    {{ form_rest(sortieForm) }}
+        <div>
+            <button class="btn btn-success">Enregistrer</button>
+            <button class="btn btn-success" >Publier la sortie</button>
+            <form method="POST" action="{{ path("sortie_remove", {'id' : sortie.id }) }}"
+                  onsubmit="return confirm('Confirmation de la suppression ?');">
+                <input type="hidden" name="_method" value="DELETE">
+                <input type="hidden" name="_token" value="{{ csrf_token('remove'~sortie.id) }}">
+                <button class="btn btn-danger" type="submit">Supprimer</button>
+            </form>
+            <a href="{{ path('sortie_list') }}"><button class="btn btn-danger">Annuler</button></a>
+        </div>
 
-    <div>
-        <button class="btn btn-success">Enregistrer</button>
-        <button class="btn btn-success" >Publier la sortie</button>
-        <form method="POST" action="{{ path("sortie_remove", {'id' : sortie.id }) }}"
-              onsubmit="return confirm('Confirmation de la suppression ?');">
-            <input type="hidden" name="_method" value="DELETE">
-            <input type="hidden" name="_token" value="{{ csrf_token('remove'~sortie.id) }}">
-            <button class="btn btn-danger" type="submit">Supprimer</button>
-        </form>
-        <a href="{{ path('sortie_list') }}"><button class="btn btn-danger">Annuler</button></a>
-    </div>
+        {{ form_end(sortieForm) }}
 
-    {{ form_end(sortieForm) }}
-
+</div>
 {% endblock %}
 
 

@@ -6,7 +6,7 @@
 
 {% block body %}
 
-    <div class="container">
+    <div >
 
     <div class="container">
         <div class="infosAccueil">
@@ -80,7 +80,7 @@
     </div>
 
 
-    <div class="container">
+    <div >
         <table class="table text-center">
             <thead>
             <tr>
@@ -121,7 +121,7 @@
                                 <button class="warning btn btn-warning btnAction">Modifier</button>
                             </a>
                             <a href="{{ path('sortie_cancel', {'id': sortie.id}) }}">
-                                <button class="btn btn-primary btnAction">Annuler</button>
+                                <button class="btn btn-danger btnAction">Annuler</button>
                             </a>
                         {% endif %}
                     </td>
