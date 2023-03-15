@@ -37,13 +37,28 @@ class SortieType extends AbstractType
                 'choice_label' => 'nom'
             ])
 
+            ->add('ville', EntityType::class,[
+                'label' => 'Ville :',
+                'class'=> Ville::class,
+                'choice_label' => 'nom',
+                'placeholder' => 'Sélectionnez une ville',
+                'mapped' => false,
+                'query_builder' => function(VilleRepository $villeRepository) {
+                    return $villeRepository
+                        ->createQueryBuilder("v")->addOrderBy("v.nom");
+                }
+            ])
+
             ->add('lieu', EntityType::class,[
                 'label' => 'Lieu :',
                 'class'=> Lieu::class,
                 'choice_label' => 'nom',
-                'query_builder' => function(LieuRepository $lieuRepository) {
+                'placeholder' => 'Sélectionnez un lieu',
+                'mapped' => false,
+                'query_builder' => function(LieuRepository $lieuRepository ) {
                     return $lieuRepository
-                        ->createQueryBuilder("l")->addOrderBy("l.nom");
+                        ->createQueryBuilder("l")
+                        ->addOrderBy('l.nom');
                 }
             ])
 
