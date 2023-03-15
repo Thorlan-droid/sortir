@@ -14,9 +14,12 @@
         {{ form_widget(sortieForm.nom) }}
         {{ form_errors(sortieForm.nom) }}
     </div>
+    {{ form_label(sortieForm.lieu) }}
+    {{ form_widget(sortieForm.lieu) }}
+    {{ form_errors(sortieForm.lieu) }}
+    <a class="link_button" href="{{ path('lieu_add') }}">Ajouter</a>
 
     {{ form_rest(sortieForm) }}
-
     <div>
         <button class="btn btn-success">Enregistrer</button>
         <button class="btn btn-success" >Publier la sortie</button>

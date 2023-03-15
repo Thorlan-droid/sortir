@@ -128,7 +128,7 @@ class SortieController extends AbstractController
 
             $campus = $this->getUser()->getCampus();
             $organisateur = $this->getUser();
-            $etat = $etatRepository->findOneBy(array('libelle' => 'Creee'));
+            $etat = $etatRepository->findOneBy(array('libelle' => 'Créée'));
 
             $campus->getNom();
             $sortie->setEtat($etat);
@@ -147,7 +147,7 @@ class SortieController extends AbstractController
     }
 
     #[Route('/update/{id}', name: 'update', requirements: ['id' => '\d+'])]
-    public function update(int $id, SortieRepository $sortieRepository, EtatRepository $etatRepository, UserRepository $userRepository, Request $request): Response
+    public function update(int $id, SortieRepository $sortieRepository, EtatRepository $etatRepository, Request $request): Response
     {
         $sortie = $sortieRepository->find($id);
         $sortieForm = $this->createForm(SortieType::class, $sortie);
@@ -161,11 +161,11 @@ class SortieController extends AbstractController
             throw $this->createNotFoundException('Nous n\'avons pas trouvé votre sortie');
         }
 
-        if ($sortieForm->isSubmitted() && $sortieForm->isValid())/*&& $sortie->getOrganisateur()->getId() !== $this->getUser()->getUserIdentifier())*/ {
-
+        if ($sortieForm->isSubmitted())/*&& $sortie->getOrganisateur()->getId() !== $this->getUser()->getUserIdentifier())   && $sortieForm->isValid() */{
+            dump($sortie);
             $campus = $this->getUser()->getCampus();
             $organisateur = $this->getUser();
-            $etat = $etatRepository->findOneBy(array('libelle' => 'Creee'));
+            $etat = $etatRepository->findOneBy(array('libelle' => 'Créée'));
 
             $campus->getNom();
             $sortie->setEtat($etat);
@@ -178,10 +178,10 @@ class SortieController extends AbstractController
             return $this->redirectToRoute("sortie_list");
         }
 
+        return $this->render('sortie/update.html.twig', [
+            'sortieForm' => $sortieForm->createView(),
+            'sortie' => $sortie
 
-        return $this->render('/sortie/update.html.twig', [
-            'sortie' => $sortie,
-            'sortieForm' => $sortieForm->createView()
         ]);
 
         // return $this->redirectToRoute("sortie_list");
