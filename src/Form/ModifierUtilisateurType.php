@@ -36,6 +36,7 @@ class ModifierUtilisateurType extends AbstractType
                 'label' => 'Mot de passe : ',
                 'first_options'  => ['label' => 'Mot de passe :'],
                 'second_options' => ['label' => 'Confirmez :'],
+                'required' => false,
                 'mapped' => false
             ])
             ->add('nom', TextType::class, [

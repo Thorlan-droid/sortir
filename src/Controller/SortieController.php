@@ -189,50 +189,38 @@ class SortieController extends AbstractController
     }
 
     #[Route('/cancel/{id}', name: 'cancel', requirements: ['id' => '\d+'])]
-    public function cancel(int                    $id,
-                           SortieRepository       $sortieRepository,
-                           ChangerEtat            $changerEtat,
-                           Request                $request,
-                           ): Response
+    public function cancel(int $id, SortieRepository $sortieRepository, EtatRepository $etatRepository, Request $request, EntityManagerInterface $entityManager): Response
     {
         $sortie = $sortieRepository->find($id);
-        $cancelSortieForm = $this->createForm(CancelSortieType::class, $sortie);
-        $cancelSortieForm->handleRequest($request);
-
 
         if (!$sortie) {
             throw $this->createNotFoundException('Nous n\'avons pas trouvé votre sortie');
         }
 
-        if ($cancelSortieForm->isSubmitted() && $cancelSortieForm->isValid())/*&& $sortie->getOrganisateur()->getId() !== $this->getUser()->getUserIdentifier())*/ {
+        $cancelSortieForm = $this->createForm(CancelSortieType::class, $sortie);
 
-            $campus = $this->getUser()->getCampus();
-            $organisateur = $this->getUser();
-//          $etat = $etatRepository->findOneBy(array('libelle' => 'Annulée'));
+        $cancelSortieForm->handleRequest($request);
 
-            $etat = $changerEtat->changerEtat();
+        if ($cancelSortieForm->isSubmitted() /*&& $cancelSortieForm->isValid()*/) {
 
-            $campus->getNom();
+            $etat = $etatRepository->findOneBy(['libelle' => 'Annulée']);
+            // Récupération de l'entité de l'état "Annulé"
+
             $sortie->setEtat($etat);
-            $sortie->setCampus($campus);
-
-            $sortie->setOrganisateur($organisateur);
+            // Modification de l'état de la sortie à l'état "Annulé"
 
             $sortieRepository->save($sortie, true);
+            // Sauvegarde de la sortie modifiée
 
             $this->addFlash("success", "Sortie annulée !");
 
             return $this->redirectToRoute("sortie_list");
         }
 
-
-        return $this->render('/sortie/cancel.html.twig', [
+        return $this->render("/sortie/cancel.html.twig", [
             'sortie' => $sortie,
             'cancelSortieForm' => $cancelSortieForm->createView()
         ]);
-
-        // return $this->redirectToRoute("sortie_list");
-
     }
 
     #[Route('/remove/{id}', name: 'remove')]

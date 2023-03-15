@@ -108,13 +108,14 @@ class UserController extends AbstractController
                 }
 
 
-
-                $user->setPassword(
-                    $userPasswordHasher->hashPassword(
-                        $user,
-                        $userForm->get('plainPassword')->getData()
-                    )
-                );
+                if ($userForm -> get('plainPassword')->getData()) {
+                    $user->setPassword(
+                        $userPasswordHasher->hashPassword(
+                            $user,
+                            $userForm->get('plainPassword')->getData()
+                        )
+                    );
+                }
 
 
                 $userRepository->save($user, true);

@@ -3,6 +3,25 @@
 {% block body %}
     <h1>Annuler la sortie "{{ sortie.nom }}"</h1>
 
+    <div class="container detailsProfil">
+        <div class="row">
+            <div class="col-auto fw-bold">
+                <div>Nom de la sortie :</div>
+                <div>Date de la sortie :</div>
+                <div>Campus :</div>
+                <div>Lieu :</div>
+
+            </div>
+            <div class="col-auto">
+                <div>{{ sortie.nom }}</div>
+                <div>{{ sortie.dateHeureDebut | date('Y-m-d H:i:s') }}</div>
+                <div>{{ sortie.campus.nom }}</div>
+                <div>{{ sortie.lieu.nom }}</div>
+
+            </div>
+        </div>
+    </div>
+
     {{ form_start(cancelSortieForm) }}
 
 {#    {{ form_errors(cancelSortieForm) }}#}
