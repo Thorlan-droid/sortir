@@ -91,7 +91,7 @@
                 <th scope="col">Etat</th>
                 <th scope="col">Inscrit</th>
                 <th scope="col">Organisateur</th>
-                <th scope="col">Action</th>
+                <th colspan="3" scope="col">Action</th>
             </tr>
             </thead>
             <tbody>
@@ -123,9 +123,13 @@
                                 </a>
                             {% endif %}
                         {% endif %}
+                    </td>
+                    <td>
                         <a href="{{ path('sortie_show', {'id': sortie.id}) }}">
                             <button class="btn btn-secondary btnAction">Afficher</button>
                         </a>
+                    </td>
+                    <td>
                         {% if sortie.organisateur.id == app.user.id and sortie.etat.libelle == 'Créée' %}
                             <a href="{{ path('sortie_update', {'id':sortie.id}) }}">
                                 <button class="warning btn btn-warning btnAction">Modifier</button>
