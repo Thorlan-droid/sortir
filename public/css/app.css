@@ -208,6 +208,7 @@ tr:nth-child(even) {
 }
 
 
+
 .modifierSortie textarea {
     width: 200px;
     padding: 8px;
@@ -215,10 +216,25 @@ tr:nth-child(even) {
     border: 1px solid #ccc;
 }
 
+.blocNav {
+    border-bottom: solid;
+    border-bottom-color: #FFFFFF;
+}
+
+.blocNav:hover {
+    border-bottom: solid;
+    border-bottom-color: #ec841e;
+}
 
 
 .nav-link{
     color: #1d85ce;
+}
+
+.nav-link:hover {
+    border-bottom: 5px;
+    border-bottom-color: #ec841e;
+
 }
 
 .nav-link:hover {

@@ -5,23 +5,29 @@
 {% endblock %}
 
 {% block body %}
-<div class="center">
-    <div class="largeurProfil ">
-        <h2 class="h2perso">Mon Profil</h2>
-        <div class="divImage">
-            <img class="image" src="{{ asset('img/avatar/' ~ user.avatar) }}" alt="photo de profil de{{ user.username }}">
-        </div>
-
-
-        <div class="profil">
-        {{ form_start(userForm) }}
-        {{ form_row(userForm.username) }}
-        {{ form_widget(userForm) }}
-        <button type="submit" class="btn btn-dark">Enregistrer</button>
-        <a href="{{ path('sortie_list') }}"><button type="button" class="btn btn-dark annulerProfil">Annuler</button></a>
-        {{ form_end(userForm) }}
+    <div class="center">
+        <div class="largeurProfil ">
+            <h2 class="h2perso">Mon Profil</h2>
+            <div class="divImage">
+                <img class="image" src="{{ asset('img/avatar/' ~ user.avatar) }}"
+                     alt="photo de profil de{{ user.username }}">
+            </div>
+            <div class="profil">
+                {{ form_start(userForm) }}
+                {{ form_row(userForm.username) }}
+                {{ form_widget(userForm) }}
+                <button type="submit" class="btn btn-dark">Enregistrer</button>
+                <a href="{{ path('sortie_list') }}">
+                    <button type="button" class="btn btn-dark annulerProfil">Annuler</button>
+                </a>
+                {{ form_end(userForm) }}
+            </div>
         </div>
     </div>
-</div>
 
 {% endblock %}
+
+
+
+
+
