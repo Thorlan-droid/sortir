@@ -225,10 +225,16 @@ tr:nth-child(even) {
     color: #ec841e;
 }
 
-.image{
+.divImage{
     width: 250px;
+    height: 190px;
     margin-right: auto;
     margin-left: auto;
+}
+
+.image{
+    height: 100%;
+
 }
 
 
