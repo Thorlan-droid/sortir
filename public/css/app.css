@@ -200,6 +200,8 @@ tr:nth-child(even) {
     border: 1px solid #ccc;
 }
 
+
+
 .modifierSortie textarea {
     width: 200px;
     padding: 8px;
@@ -221,4 +223,37 @@ tr:nth-child(even) {
 
 .image{
     width: 250px;
+}
+
+
+
+.btn-primary {
+    background-color: #1d85ce;
+    border: #1d85ce;
+}
+
+.btn-primary:hover{
+    background-color: #1f78d2;
+    /*font-weight: bold;*/
+
+}
+
+.btn-danger {
+    background-color: #ff4f4f;
+    border: #ff4f4f;
+}
+
+.btn-danger:hover {
+    background-color: #d24141;
+    /*font-weight: bold;*/
+}
+
+.btn-warning {
+    background-color: #ffad43;
+    border: #ffad43;
+}
+
+.btn-warning:hover {
+    background-color: #e0912a;
+    /*font-weight: bold;*/
 }
