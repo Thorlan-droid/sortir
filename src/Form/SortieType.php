@@ -54,7 +54,7 @@ class SortieType extends AbstractType
                 'class'=> Lieu::class,
                 'choice_label' => 'nom',
                 'placeholder' => 'Sélectionnez un lieu',
-                'mapped' => false,
+//                'mapped' => false,
                 'query_builder' => function(LieuRepository $lieuRepository ) {
                     return $lieuRepository
                         ->createQueryBuilder("l")

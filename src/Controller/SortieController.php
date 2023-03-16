@@ -36,7 +36,7 @@ class SortieController extends AbstractController
 
     #[Route('', name: 'list')]
     #[Route('/list', name: 'list')]
-    public function profile(SortieRepository $sortieRepository, EntityManagerInterface $entityManager, Request $request): Response
+    public function profile(SortieRepository $sortieRepository, EntityManagerInterface $entityManager, Request $request, ChangerEtat $changerEtat): Response
     {
 
         $date = new \DateTime();
@@ -80,6 +80,9 @@ class SortieController extends AbstractController
 //            'sorties' => $sorties
 //        ]);
 //    }
+
+
+
 
     #[Route('/recherche', name: 'recherche')]
     public function rechercheParFiltre(SortieRepository $sortieRepository): Response
@@ -189,7 +192,7 @@ class SortieController extends AbstractController
     }
 
     #[Route('/cancel/{id}', name: 'cancel', requirements: ['id' => '\d+'])]
-    public function cancel(int $id, SortieRepository $sortieRepository, EtatRepository $etatRepository, Request $request, EntityManagerInterface $entityManager): Response
+    public function cancel(int $id, SortieRepository $sortieRepository, EtatRepository $etatRepository, Request $request): Response
     {
         $sortie = $sortieRepository->find($id);
 
