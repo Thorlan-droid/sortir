@@ -36,25 +36,10 @@ class SortieController extends AbstractController
 
     #[Route('', name: 'list')]
     #[Route('/list', name: 'list')]
-    public function profile(SortieRepository $sortieRepository, EntityManagerInterface $entityManager, Request $request, ChangerEtat $changerEtat): Response
+    public function profile(SortieRepository $sortieRepository, EntityManagerInterface $entityManager, Request $request, ChangerEtat $changerEtat, EtatRepository $etatRepository): Response
     {
 
-        $date = new \DateTime();
-        $date->sub(new \DateInterval('P1M')); // soustraire 1 mois
-
-        $sorties = $sortieRepository->findOldSorties($date);
-
-        foreach ($sorties as $sortie) {
-            $etatHistorise = $entityManager->getRepository(Etat::class)->findOneBy(['libelle' => 'Historisée']);
-            if (!$etatHistorise) {
-                $etatHistorise = new Etat();
-                $etatHistorise->setLibelle('Historisée');
-                $entityManager->persist($etatHistorise);
-            }
-
-            $sortie->setEtat($etatHistorise);
-            $entityManager->flush();
-        }
+        $changerEtat->changeState($etatRepository, $sortieRepository);
 
 
         $filtres = new ModelFiltre();
@@ -67,7 +52,7 @@ class SortieController extends AbstractController
         //$sortie = $sortieRepository->findAll();
         return $this->render('sortie/list.html.twig', [
             'sortieFiltre' => $sortieFiltre, 'filtre' => $filtreForm->createView(),
-            'sorties' => $sorties,
+
         ]);
     }
 

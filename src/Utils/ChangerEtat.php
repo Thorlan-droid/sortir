@@ -98,16 +98,17 @@ class ChangerEtat
 
             $dateHeureDebut = clone $sortie->getDateHeureDebut();
             $dateLimiteIncription = clone $sortie->getDateLimiteInscription();
-            $duree = clone $sortie->getDuree();
+            $dateHeureFin = clone $sortie->getDateHeureDebut();
+            $dateHeureFin->modify('+' . $sortie->getDuree() . 'minute');
 
             $now = new \DateTime();
 
-            if ($now > $dateHeureDebut && $now < ($dateHeureDebut + $duree)) {
+            if ($now > $dateHeureDebut && $now < $dateHeureFin) {
                 $sortie->setEtat($etatRepository->findOneBy(array('libelle' => 'En cours')));
-//            } elseif ($now > $dateHeureDebut + $duree) {
-//                $sortie->setEtat($etatRepository->findOneBy(array('libelle' => 'Passée')));
-//            } elseif ($now > $dateLimiteIncription && $now < $dateHeureDebut) {
-//                $sortie->setEtat($etatRepository->findOneBy(array('libelle' => 'Cloturée')));
+            } elseif ($now > $dateHeureFin) {
+                $sortie->setEtat($etatRepository->findOneBy(array('libelle' => 'Passée')));
+            } elseif ($now > $dateLimiteIncription && $now < $dateHeureDebut) {
+                $sortie->setEtat($etatRepository->findOneBy(array('libelle' => 'Cloturée')));
            }
 
         }
