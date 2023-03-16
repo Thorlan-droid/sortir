@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Lieu;
+use App\Entity\Ville;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -39,6 +40,16 @@ class LieuRepository extends ServiceEntityRepository
         }
     }
 
+
+//    public function findLieuByVille() {
+//        $qb = $this->createQueryBuilder('l');
+//
+//        $qb->where('l.ville = :ville')
+//
+//            ->orderBy('l.nom', 'ASC');
+//
+//        return $qb;
+//    }
 //    /**
 //     * @return Lieu[] Returns an array of Lieu objects
 //     */
@@ -54,13 +65,23 @@ class LieuRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Lieu
+//    public function findOneByVille(Ville $ville): ?Lieu
 //    {
 //        return $this->createQueryBuilder('l')
-//            ->andWhere('l.exampleField = :val')
-//            ->setParameter('val', $value)
+//            ->andWhere('l.ville = :ville')
+//            ->setParameter('ville', $ville)
 //            ->getQuery()
-//            ->getOneOrNullResult()
+//            ->getResult()
 //        ;
+//    }
+//    public function findWithVilleJoin($id)
+//    {
+//        return $this->createQueryBuilder('l')
+//            ->andWhere('l.id = :id')
+//            ->leftJoin('l.ville', 'ville')
+//            ->addSelect('ville')
+//            ->setParameter('id', $id)
+//            ->getQuery()
+//            ->getOneOrNullResult();
 //    }
 }
