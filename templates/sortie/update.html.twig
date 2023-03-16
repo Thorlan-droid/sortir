@@ -5,40 +5,59 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Modifier une sortie</h1>
+    <h2 class="h2perso mb-5">Modifier une sortie</h2>
 
 <div class="center">
     <div class="largeurUpdate ">
 
         <div class="modifierSortie">
-            <h2 class="h2perso">Modifier une sortie</h2>
 
             {{ form_start(sortieForm) }}
             {{ form_label(sortieForm.nom) }}
             {{ form_widget(sortieForm.nom) }}
             {{ form_errors(sortieForm.nom) }}
-
             {{ form_rest(sortieForm) }}
 
         </div>
     </div>
-
-        <div>
-            <button class="btn btn-success">Enregistrer</button>
-
-            <form method="POST" action="{{ path("sortie_remove", {'id' : sortie.id }) }}"
-                  onsubmit="return confirm('Confirmation de la suppression ?');">
-                <input type="hidden" name="_method" value="DELETE">
-                <input type="hidden" name="_token" value="{{ csrf_token('remove'~sortie.id) }}">
-                <button class="btn btn-danger" type="submit">Supprimer</button>
-            </form>
-            <a href="{{ path('sortie_list') }}"><button class="btn btn-danger">Annuler</button></a>
-
+    <div style="width: 400px">
+        <div class="row mb-2">
+            <div class="col-1">
+            </div>
+            <div class="col-4">
+                <button class="btn btn-success cent">Enregistrer</button>
+            </div>
+            <div class="col-2">
+            </div>
+            <div class="col-4">
+                <form method="POST" action="{{ path("sortie_remove", {'id' : sortie.id }) }}"
+                      onsubmit="return confirm('Confirmation de la suppression ?');">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <input type="hidden" name="_token" value="{{ csrf_token('remove'~sortie.id) }}">
+                    <button class="btn btn-danger cent" type="submit">Supprimer</button>
+                </form>
+            </div>
+            <div class="col-1">
+            </div>
         </div>
-
-        {{ form_end(sortieForm) }}
-    <a href="{{ path('sortie_publish', {'id':sortie.id}) }}"><button class="btn btn-success" >Publier la sortie</button></a>
-
+        <div class="row">
+            <div class="col-1">
+            </div>
+            <div class="col-4">
+                <a href="{{ path('sortie_publish', {'id':sortie.id}) }}">
+                    <button class="btn btn-success cent" >Publier</button>
+                </a>
+            </div>
+            <div class="col-2">
+            </div>
+            <div class="col-4">
+                <a href="{{ path('sortie_list') }}">
+                    <button class="btn btn-secondary cent">Retour</button>
+                </a>
+            </div>
+        </div>
+    </div>
+    {{ form_end(sortieForm) }}
 </div>
 {% endblock %}
 
