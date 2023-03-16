@@ -6,7 +6,6 @@
 
 {% block body %}
 
-    <div >
 
     <div class="container">
         <div class="infosAccueil">
@@ -79,21 +78,40 @@
         {#        {{ form_end(filtre) }} #}
     </div>
 
+    <style>
+        tbody {
+            display: block;
+            height: 330px; /* hauteur fixe du tbody */
+            overflow-y: scroll; /* ajout d'une barre de défilement verticale */
+        }
+        tr {
+            display: table;
+            width: 100%;
+            table-layout: fixed;
+            /* autres styles des lignes de tableau si nécessaire */
+        }
+        th, td {
+            width: auto;
+            /* autres styles des cellules de tableau si nécessaire */
+        }
+    </style>
+    </style>
 
     <div class="tablePerso">
         <table class="table text-center">
             <thead>
-            <tr>
-                <th scope="col">Nom de la sortie</th>
-                <th scope="col">Date de la sortie</th>
-                <th scope="col">Clôture</th>
-                <th scope="col">Places</th>
-                <th scope="col">Etat</th>
-                <th scope="col">Inscrit</th>
-                <th scope="col">Organisateur</th>
-                <th colspan="2" scope="col">Action</th>
-            </tr>
+                <tr>
+                    <th scope="col">Nom de la sortie</th>
+                    <th scope="col">Date de la sortie</th>
+                    <th scope="col">Clôture</th>
+                    <th scope="col">Places</th>
+                    <th scope="col">Etat</th>
+                    <th scope="col">Inscrit</th>
+                    <th scope="col">Organisateur</th>
+                    <th colspan="2" scope="col" class="action">Action</th>
+                </tr>
             </thead>
+
             <tbody>
             {% for sortie in sortieFiltre %}
                 <tr>
@@ -158,10 +176,11 @@
                     </td>
                 </tr>
             {% endfor %}
+
             </tbody>
         </table>
-
     </div>
+
 
     <div>
         <a href="{{ path('sortie_add') }}">

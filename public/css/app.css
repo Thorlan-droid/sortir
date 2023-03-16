@@ -213,11 +213,7 @@ tr:nth-child(even) {
     border: 1px solid #ccc;
 }
 
-.tablePerso {
-    max-height:300px;
-    width: 100%;
-    overflow:auto;/*pour activer les scrollbarres*/
-}
+
 
 .nav-link{
     color: #1d85ce;
