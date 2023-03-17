@@ -70,18 +70,13 @@ class SortieType extends AbstractType
                 'widget' => 'single_text'
             ])
             ->add('duree', IntegerType::class)
-//            ->add('duree', DateIntervalType::class, [
-//                'with_years'  => false,
-//                'with_months' => false,
-//                'with_days'   => false,
-//                'with_hours'  => true,
-//            ])
+
             ->add('dateLimiteInscription', DateType::class, [
-                'label' => 'Date limite d inscription :',
+                'label' => 'Llimite d inscription :',
                 'html5' => true,
                 'widget' => 'single_text'
             ])
-            ->add('nbInscriptionMax', TextType::class, [
+            ->add('nbInscriptionMax', IntegerType::class, [
                 'label' => 'Nombre de places :'
             ])
             ->add('infosSortie', TextareaType::class, [

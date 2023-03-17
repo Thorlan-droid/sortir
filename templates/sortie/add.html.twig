@@ -12,23 +12,53 @@
         {{ form_label(sortieForm.nom) }}
         {{ form_widget(sortieForm.nom) }}
         {{ form_errors(sortieForm.nom) }}
+
+        {{ form_label(sortieForm.ville) }}
+        {{ form_widget(sortieForm.ville) }}
+        {{ form_errors(sortieForm.ville) }}
+        {{ form_label(sortieForm.lieu) }}
+        {{ form_widget(sortieForm.lieu) }}
+        {{ form_errors(sortieForm.lieu) }}
+        <a class="link_button" href="{{ path('lieu_add') }}">Ajouter</a>
+
+        {{ form_rest(sortieForm) }}
+        <button class="btn btn-success">Enregistrer</button>
     </div>
-
-    {{ form_label(sortieForm.ville) }}
-    {{ form_widget(sortieForm.ville) }}
-    {{ form_errors(sortieForm.ville) }}
-    <br>
-    {{ form_label(sortieForm.lieu) }}
-    {{ form_widget(sortieForm.lieu) }}
-    {{ form_errors(sortieForm.lieu) }}
-    <a class="link_button" href="{{ path('lieu_add') }}">Ajouter</a>
-
-    {{ form_rest(sortieForm) }}
-    <button class="btn btn-success">Enregistrer</button>
-    <a href="{{ path('sortie_list') }}">
-        <button>Annuler</button>
-    </a>
     {{ form_end(sortieForm) }}
+    <a href="{{ path('sortie_list') }}">
+        <button class="btn btn-secondary">Annuler</button>
+    </a>
 
+    <style>
+
+        .creerSortie {
+            width: 500px;
+        }
+
+        label {
+            width: 200px;
+        }
+
+        textarea,
+        input {
+            width: 200px;
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        input[type="number"] {
+            width: 125px;
+        }
+
+        #sortie_duree_hour,
+        #sortie_duree_minute{
+            width: 80px;
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+    </style>
 {% endblock %}
 
