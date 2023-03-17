@@ -89,9 +89,7 @@ class UserController extends AbstractController
 
                 $avatarFile = $userForm->get('avatar')->getData();
 
-
                 if ($avatarFile) {
-
 
                     $newFilename = uniqid().'.'.$avatarFile->guessExtension();
 
@@ -107,7 +105,6 @@ class UserController extends AbstractController
                     $user->setAvatar($newFilename);
                 }
 
-
                 if ($userForm -> get('plainPassword')->getData()) {
                     $user->setPassword(
                         $userPasswordHasher->hashPassword(
@@ -116,7 +113,6 @@ class UserController extends AbstractController
                         )
                     );
                 }
-
 
                 $userRepository->save($user, true);
 
