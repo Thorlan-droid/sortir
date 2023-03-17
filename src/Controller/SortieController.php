@@ -39,6 +39,7 @@ class SortieController extends AbstractController
     public function profile(SortieRepository $sortieRepository, EntityManagerInterface $entityManager, Request $request, ChangerEtat $changerEtat, EtatRepository $etatRepository): Response
     {
 
+
         $changerEtat->changeState($etatRepository, $sortieRepository);
 
 
