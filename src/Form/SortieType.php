@@ -34,7 +34,7 @@ class SortieType extends AbstractType
                 'label' => 'Nom de la sortie :'
             ])
             ->add('campus', EntityType::class, [
-                'label'=> 'campus : ',
+                'label'=> 'Campus : ',
                 'class' => Campus::class,
                 'choice_label' => 'nom'
             ])

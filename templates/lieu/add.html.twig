@@ -12,12 +12,26 @@
         {{ form_label(lieuForm.nom) }}
         {{ form_widget(lieuForm.nom) }}
         {{ form_errors(lieuForm.nom) }}
+
+
+        {{ form_rest(lieuForm) }}
+
+    <button class="btn btn-success" onclick="return confirm('Voulez vous ajouter ce lieu ?')">Ajouter</button>
+    <a class="btn btn-secondary" href="{{ path('sortie_add') }}">Retour</a>
+    {{ form_end(lieuForm) }}
     </div>
 
-    {{ form_rest(lieuForm) }}
-    <button class="btn btn-success" onclick="return confirm('Voulez vous ajouter ce lieu ?')">Ajouter</button>
-    <a class="btn btn-success" href="{{ path('sortie_add') }}">Retour</a>
-    {{ form_end(lieuForm) }}
+    <style>
+        label{
+            width: 110px;
+        }
+        input{
+            width: 200px ;
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+    </style>
 
 {% endblock %}
 
